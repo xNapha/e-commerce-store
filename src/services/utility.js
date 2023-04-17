@@ -3,6 +3,6 @@ export const itemUrlPath = (title) => {
         .replace(/[\W]/gi, " ")
         .split(" ")
         .filter((string) => string)
-        .join("%20")
+        .join("+")
         .toLowerCase();
 };
