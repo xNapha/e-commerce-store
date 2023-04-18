@@ -4,57 +4,30 @@ import Field from "./Field";
 import Input from "./Input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { collection, addDoc } from "firebase/firestore";
-import { storage, db } from "../../firebase";
+import { addItemToDataBase } from "../../services/updateDatabase";
+const schema = yup
+    .object({
+        item: yup.string().required(),
+        quantity: yup.number().integer().positive(),
+        price: yup.string().required(),
+        description: yup.string().required(),
+    })
+    .required();
 
 const Form = () => {
-    const [imageLinks, setImageLinks] = useState([]);
-    const schema = yup
-        .object({
-            item: yup.string().required(),
-            quantity: yup.number().integer().positive(),
-            price: yup.string().required(),
-            description: yup.string().required(),
-        })
-        .required();
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors },
-    } = useForm({ resolver: yupResolver(schema) });
+    } = useForm();
 
-    const addToDataBase = (stockObj) => {
-        const { images, ...rest } = stockObj;
-        const stockImageArr = Array.from(images);
-        const imagePromises = [];
-        stockImageArr.forEach((image) => {
-            const stockImageRef = ref(
-                storage,
-                `/images/${stockObj.name}/${image.name}`
-            );
-            const stockImagepromise = uploadBytes(stockImageRef, image).then(
-                () => {
-                    getDownloadURL(stockImageRef).then((value) => {
-                        setImageLinks((prev) => [...prev, value]);
-                    });
-                }
-            );
-            imagePromises.push(stockImagepromise);
-        });
-        Promise.all(imagePromises).then(() => {
-            addDoc(collection(db, "stock"), {
-                ...rest,
-                imageLinks: [...imageLinks],
-            }).then(() => {
-                setImageLinks([]);
-                reset();
-            });
-        });
+    const submitForm = async (data) => {
+        await addItemToDataBase(data);
+        reset();
     };
     return (
-        <form onSubmit={handleSubmit(addToDataBase)}>
+        <form onSubmit={handleSubmit(submitForm)}>
             <Field>
                 <Input
                     label="Item Name"
