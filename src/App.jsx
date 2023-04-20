@@ -21,6 +21,7 @@ const App = () => {
                 price={price}
                 description={description}
                 image={image}
+                item={item}
             />
         );
         return (
@@ -42,7 +43,9 @@ const App = () => {
                         {renderRouteForEachStock}
                     </Route>
                     <Route path="checkout" element={<CheckOut />} />
+                    <Route path="adminAccess" element={<Form />} />
                 </Route>
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </>
     );

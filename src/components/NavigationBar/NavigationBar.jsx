@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { CartContext } from "../../contexts/CartProvider";
+import { countTotalItemsInCart } from "../../services/utility";
 
 const NavigationBar = () => {
+    const { totalItems, newItemAnimation } = useContext(CartContext);
+
+    const newItemInCart = "yes";
+
+    useEffect(() => {}, [totalItems]);
     return (
         <header>
             <NavLink to="/topir/">
@@ -12,7 +19,12 @@ const NavigationBar = () => {
             </NavLink>
             <NavLink to="/topir/puzzles">Catalogue</NavLink>
             <NavLink to="/topir/checkout">
-                <img src="" alt="Checkout" />
+                <div>
+                    {" "}
+                    {newItemAnimation && <p>yes</p>}
+                    <img src="" alt="Checkout" />
+                    {totalItems > 0 && <p>{totalItems}</p>}
+                </div>
             </NavLink>
         </header>
     );
