@@ -10,10 +10,10 @@ export const StockProvider = ({ children }) => {
     useEffect(() => {
         const wrapper = async () => {
             const stock = await fetchStockFromAPI();
+            console.log(stock);
             setCurrentStock(stock);
         };
         wrapper();
-        console.log("render");
     }, []);
     const value = { currentStock, setCurrentStock };
     return (

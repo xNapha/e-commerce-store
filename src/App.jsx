@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
-import Form from "./components/Form/Form";
+import AdminForm from "./components/AdminForm/AdminForm";
 import Homepage from "./containers/Homepage/Homepage";
 import ItemList from "./containers/ItemList/ItemList";
 import NotFound from "./containers/NotFound/NotFound";
 import CheckOut from "./containers/CheckOut/CheckOut";
 import DedicatedItem from "./containers/DedicatedItem/DedicatedItem";
-import NavigationBar from "./components/NavigationBar/NavigationBar";
+import NavigationBar from "./components/DisplayItem/NavigationBar/NavigationBar";
 import { Routes, Route } from "react-router-dom";
 import { StockContext } from "./contexts/StockProvider";
 import { v4 as uuidv4 } from "uuid";
@@ -39,11 +39,14 @@ const App = () => {
                 <Route path="topir">
                     <Route path="" element={<Homepage />} />
                     <Route path="puzzles">
-                        <Route path="" element={<ItemList />} />
+                        <Route
+                            path=""
+                            element={<ItemList stock={currentStock} />}
+                        />
                         {renderRouteForEachStock}
                     </Route>
                     <Route path="checkout" element={<CheckOut />} />
-                    <Route path="adminAccess" element={<Form />} />
+                    <Route path="adminAccess" element={<AdminForm />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
             </Routes>

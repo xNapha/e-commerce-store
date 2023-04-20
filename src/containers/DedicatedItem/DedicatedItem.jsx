@@ -2,35 +2,36 @@ import React, { useContext, useState, useReducer, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { CartContext } from "../../contexts/CartProvider";
 import { useForm } from "react-hook-form";
-import { checkIfInCart } from "../../services/utility";
-
-const reducer = (state, action) => {
-    switch (action.type) {
-        case "increment":
-            return { quantity: state.quantity + 1, item: state.item };
-        case "decrement":
-            return state.quantity <= 1
-                ? { quantity: 1, item: state.item }
-                : { quantity: state.quantity - 1, item: state.item };
-        default:
-            return state;
-    }
-};
+import {
+    checkIfInCart,
+    getItemsWithInTheSameCategory,
+} from "../../services/utility";
+import ItemList from "../ItemList/ItemList";
+import { StockContext } from "../../contexts/StockProvider";
 
 const DedicatedItem = ({ id, title, price, description, image, item }) => {
     const { cart, setCart, setNewItemAnimation } = useContext(CartContext);
+    const { currentStock } = useContext(StockContext);
     const { handleSubmit } = useForm();
     const [error, setError] = useState(false);
+
+    const reducer = (state, action) => {
+        switch (action.type) {
+            case "increment":
+                return { quantity: state.quantity + 1, item: state.item };
+            case "decrement":
+                return state.quantity <= 1
+                    ? { quantity: 1, item: state.item }
+                    : { quantity: state.quantity - 1, item: state.item };
+            case "itemChange":
+                return { quantity: 1, item: item };
+            default:
+                return state;
+        }
+    };
+
     const [state, dispatch] = useReducer(reducer, { quantity: 1, item: item });
-    /*
-    show name
-    image
-    description
-    price
-    form
-    input for quantity
-    button to add to cart
-    */
+
     const addToCart = () => {
         setCart(checkIfInCart(cart, state));
         setNewItemAnimation(true);
@@ -44,16 +45,17 @@ const DedicatedItem = ({ id, title, price, description, image, item }) => {
         setError(false);
         dispatch({ type: "decrement" });
     };
+
     useEffect(() => {
-        console.log(cart, "cart");
-    }, []);
+        dispatch({ type: "itemChange" });
+    }, [item]);
 
     return (
         <React.Fragment>
-            <div>
+            <section>
                 <img src="" alt={title} />
                 <div>
-                    <h3>{title}</h3>
+                    <h2>{title}</h2>
                     <h4>{price}</h4>
                     <form onSubmit={handleSubmit(addToCart)}>
                         <div>
@@ -69,11 +71,13 @@ const DedicatedItem = ({ id, title, price, description, image, item }) => {
                         <button type="submit">{"ADD TO CART"}</button>
                     </form>
                 </div>
-            </div>
-            <div>
+            </section>
+            <section>
                 <h4>You may also like this...</h4>
-                <div>{/* items all within the same category*/}</div>
-            </div>
+                <ItemList
+                    stock={getItemsWithInTheSameCategory(currentStock, item)}
+                />
+            </section>
         </React.Fragment>
     );
 };

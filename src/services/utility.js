@@ -22,3 +22,13 @@ export const checkIfInCart = (cart, state) => {
 export const countTotalItemsInCart = (cart) => {
     return cart.reduce((acc, curr) => acc + curr.quantity, 0);
 };
+
+export const getItemsWithInTheSameCategory = (currentStock, item) => {
+    return currentStock.filter(
+        (stock) => stock.category === item.category && stock.id !== item.id
+    );
+};
+
+export const getTotalPrice = (cart) => {
+    return cart.reduce((acc, curr) => acc + curr.quantity * curr.item.price, 0);
+};

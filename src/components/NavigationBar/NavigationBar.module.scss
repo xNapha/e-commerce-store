@@ -1,9 +1,32 @@
+@keyframes newItem {
+    // wave around until animation ends
+    0% {
+        transform: rotate(0deg);
+    }
+    20% {
+        transform: rotate(-5deg);
+    }
+    40% {
+        transform: rotate(5deg);
+    }
+    60% {
+        transform: rotate(-5deg);
+    }
+    80% {
+        transform: rotate(5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
 .Navigation_Bar {
     &-cart {
+        width: 100px;
+        border: 1px solid black;
     }
 }
 
 .New_Item_In_Cart {
-    color: purple;
-    transition: 1s ease;
+    animation: newItem 1s linear infinite;
 }

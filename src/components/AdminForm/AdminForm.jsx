@@ -14,13 +14,13 @@ const schema = yup
     })
     .required();
 
-const Form = () => {
+const AdminForm = () => {
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors },
-    } = useForm();
+    } = useForm({ resolver: yupResolver(schema) });
 
     const submitForm = async (data) => {
         await addItemToDataBase(data);
@@ -82,4 +82,4 @@ const Form = () => {
     );
 };
 
-export default Form;
+export default AdminForm;
