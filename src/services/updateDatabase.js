@@ -2,8 +2,8 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage, db } from "../firebase";
 import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
 
-const imagesRootFolder = "topir-images";
-const dataBaseCollectionName = "topir-stock";
+const imagesRootFolder = "attire-images";
+const dataBaseCollectionName = "attire-stock";
 
 export const addItemToDataBase = async (item) => {
     const { images, ...rest } = item;

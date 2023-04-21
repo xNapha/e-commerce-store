@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { CartContext } from "../../../contexts/CartProvider";
-import { countTotalItemsInCart } from "../../../services/utility";
+import { CartContext } from "../../contexts/CartProvider";
+import { countTotalItemsInCart } from "../../services/utility";
 import styles from "./NavigationBar.module.scss";
 
 const NavigationBar = () => {
@@ -13,14 +13,14 @@ const NavigationBar = () => {
 
     return (
         <header>
-            <NavLink to="/topir/">
+            <NavLink to="/attire/">
                 <div>
                     <img src="" alt="logo" />
-                    <h1>Topir</h1>
+                    <h1>attire</h1>
                 </div>
             </NavLink>
-            <NavLink to="/topir/puzzles">Catalogue</NavLink>
-            <NavLink to="/topir/checkout">
+            <NavLink to="/attire/catalogue">Catalogue</NavLink>
+            <NavLink to="/attire/checkout">
                 <div className={applyCartAnimation}>
                     <img src="" alt="Checkout" />
                     {totalItems > 0 && <p>{totalItems}</p>}

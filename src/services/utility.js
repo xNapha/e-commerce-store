@@ -29,6 +29,12 @@ export const getItemsWithInTheSameCategory = (currentStock, item) => {
     );
 };
 
+export const getPopularItems = (currentStock, item) => {
+    return currentStock.filter(
+        (stock) => stock.rating.rate > 4 && stock.id !== item.id
+    );
+};
+
 export const getTotalPrice = (cart) => {
     return cart.reduce((acc, curr) => acc + curr.quantity * curr.item.price, 0);
 };

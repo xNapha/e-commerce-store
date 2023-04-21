@@ -2,17 +2,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Field from "./Field";
 import Input from "./Input";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { addItemToDataBase } from "../../services/updateDatabase";
-const schema = yup
-    .object({
-        item: yup.string().required(),
-        quantity: yup.number().integer().positive(),
-        price: yup.string().required(),
-        description: yup.string().required(),
-    })
-    .required();
+import { render } from "react-dom";
 
 const AdminForm = () => {
     const {
@@ -20,13 +11,79 @@ const AdminForm = () => {
         handleSubmit,
         reset,
         formState: { errors },
-    } = useForm({ resolver: yupResolver(schema) });
+    } = useForm();
+    const [additionalSizeInput, setAdditionalSizeInput] = useState(1);
+    const [additionalCategoryInput, setAdditionalCategoryInput] = useState(1);
+    const [updatingDataBase, setUpdatingDataBase] = useState(false);
 
     const submitForm = async (data) => {
+        setUpdatingDataBase(true);
         await addItemToDataBase(data);
         reset();
+        setUpdatingDataBase(false);
     };
-    return (
+
+    const formSizeInfo = (number) => {
+        return (
+            <Field key={number}>
+                <Input
+                    label="Item Size"
+                    name={`variants[${number}][size]`}
+                    type="string"
+                    register={register}
+                    errors={errors}
+                />
+                <Input
+                    label="Item Quantity"
+                    name={`variants[${number}][quantity]`}
+                    type="number"
+                    register={register}
+                    errors={errors}
+                />
+                <button
+                    type="button"
+                    onClick={() => {
+                        setAdditionalSizeInput(additionalSizeInput - 1);
+                    }}
+                >
+                    Remove Field
+                </button>
+            </Field>
+        );
+    };
+
+    const categoryInfo = (number) => {
+        return (
+            <Field key={number}>
+                <Input
+                    label={`Category ${number + 1}`}
+                    name={`category[${number}]`}
+                    type="string"
+                    register={register}
+                    errors={errors}
+                />
+                <button
+                    type="button"
+                    onClick={() => {
+                        setAdditionalCategoryInput(additionalCategoryInput - 1);
+                    }}
+                >
+                    Remove Field
+                </button>
+            </Field>
+        );
+    };
+
+    const renderAdditionalInputs = (additionalSizeInput, formInfo) => {
+        const formToRender = [];
+
+        for (let i = 0; i < additionalSizeInput; i++) {
+            formToRender.push(formInfo(i));
+        }
+        return formToRender.map((jsx) => jsx);
+    };
+
+    const adminAccessForm = (
         <form onSubmit={handleSubmit(submitForm)}>
             <Field>
                 <Input
@@ -37,14 +94,16 @@ const AdminForm = () => {
                     errors={errors}
                 />
             </Field>
+            {renderAdditionalInputs(additionalSizeInput, formSizeInfo)}
             <Field>
-                <Input
-                    label="Item Quantity"
-                    name="quantity"
-                    type="number"
-                    register={register}
-                    errors={errors}
-                />
+                <button
+                    type="button"
+                    onClick={() => {
+                        setAdditionalSizeInput(additionalSizeInput + 1);
+                    }}
+                >
+                    Add Additional Size Field
+                </button>
             </Field>
             <Field>
                 <Input
@@ -54,6 +113,17 @@ const AdminForm = () => {
                     register={register}
                     errors={errors}
                 />
+            </Field>
+            {renderAdditionalInputs(additionalCategoryInput, categoryInfo)}
+            <Field>
+                <button
+                    type="button"
+                    onClick={() => {
+                        setAdditionalCategoryInput(additionalCategoryInput + 1);
+                    }}
+                >
+                    Add Additional Category Field
+                </button>
             </Field>
             <Field>
                 <Input
@@ -79,6 +149,15 @@ const AdminForm = () => {
                 <button type="submit">Submit</button>
             </Field>
         </form>
+    );
+
+    return (
+        <>
+            {updatingDataBase && (
+                <p>Updating database dont go anywhere, it will take a minute</p>
+            )}
+            {!updatingDataBase && adminAccessForm}
+        </>
     );
 };
 

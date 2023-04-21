@@ -5,7 +5,7 @@ import ItemList from "./containers/ItemList/ItemList";
 import NotFound from "./containers/NotFound/NotFound";
 import CheckOut from "./containers/CheckOut/CheckOut";
 import DedicatedItem from "./containers/DedicatedItem/DedicatedItem";
-import NavigationBar from "./components/DisplayItem/NavigationBar/NavigationBar";
+import NavigationBar from "./components/NavigationBar/NavigationBar";
 import { Routes, Route } from "react-router-dom";
 import { StockContext } from "./contexts/StockProvider";
 import { v4 as uuidv4 } from "uuid";
@@ -13,7 +13,7 @@ import { itemUrlPath } from "./services/utility";
 const App = () => {
     const { currentStock } = useContext(StockContext);
     const renderRouteForEachStock = currentStock.map((item) => {
-        const { id, title, price, description, image } = item;
+        const { id, title, price, description, image, rating } = item;
         const DedicatedItemCard = (
             <DedicatedItem
                 id={id}
@@ -22,6 +22,7 @@ const App = () => {
                 description={description}
                 image={image}
                 item={item}
+                rate={rating.rate}
             />
         );
         return (
@@ -36,9 +37,9 @@ const App = () => {
         <>
             <NavigationBar />
             <Routes>
-                <Route path="topir">
+                <Route path="attire">
                     <Route path="" element={<Homepage />} />
-                    <Route path="puzzles">
+                    <Route path="catalogue">
                         <Route
                             path=""
                             element={<ItemList stock={currentStock} />}
