@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Field from "./Field";
 import Input from "./Input";
-import { useForm } from "react-hook-form";
 import SizeInfo from "./SizeInfo";
 
 const ColorVariant = ({ number, register, errors }) => {
@@ -14,6 +13,7 @@ const ColorVariant = ({ number, register, errors }) => {
                 <SizeInfo
                     key={i}
                     number={number}
+                    index={i}
                     register={register}
                     errors={errors}
                 />

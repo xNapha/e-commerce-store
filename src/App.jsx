@@ -10,6 +10,7 @@ import { Routes, Route } from "react-router-dom";
 import { StockContext } from "./contexts/StockProvider";
 import { v4 as uuidv4 } from "uuid";
 import { itemUrlPath } from "./services/utility";
+import Favourites from "./containers/Favourites/Favourites";
 const App = () => {
     const { currentStock } = useContext(StockContext);
     const renderRouteForEachStock = currentStock.map((item) => {
@@ -46,6 +47,7 @@ const App = () => {
                         />
                         {renderRouteForEachStock}
                     </Route>
+                    <Route path="favourites" element={<Favourites />} />
                     <Route path="checkout" element={<CheckOut />} />
                     <Route path="adminAccess" element={<AdminForm />} />
                 </Route>

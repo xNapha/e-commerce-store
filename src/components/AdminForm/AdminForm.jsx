@@ -20,8 +20,7 @@ const AdminForm = () => {
     const submitForm = async (data) => {
         setUpdatingDataBase(true);
         await addItemToDataBase(data);
-        // console.log(data);
-        // reset();
+        reset();
         setUpdatingDataBase(false);
     };
     const renderAdditionalInputs = (additionalInput) => {

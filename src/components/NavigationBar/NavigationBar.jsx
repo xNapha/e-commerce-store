@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { CartContext } from "../../contexts/CartProvider";
-import { countTotalItemsInCart } from "../../services/utility";
 import styles from "./NavigationBar.module.scss";
 
 const NavigationBar = () => {
@@ -20,6 +19,7 @@ const NavigationBar = () => {
                 </div>
             </NavLink>
             <NavLink to="/attire/catalogue">Catalogue</NavLink>
+            <NavLink to="/attire/favourites">Favourites</NavLink>
             <NavLink to="/attire/checkout">
                 <div className={applyCartAnimation}>
                     <img src="" alt="Checkout" />
