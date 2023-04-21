@@ -6,33 +6,41 @@ const imagesRootFolder = "attire-images";
 const dataBaseCollectionName = "attire-stock";
 
 export const addItemToDataBase = async (item) => {
-    const { images, ...rest } = item;
-    const getArrayOfImages = Array.from(images);
-    const allUploadedImages = uploadImagesToStoragePromises(
-        item.name,
-        getArrayOfImages
-    );
-    const imageMetadataArr = await Promise.all(allUploadedImages);
-    const allImagePathNames = getImageUrlFromStoragePromises(imageMetadataArr);
-    const allImageUrl = await Promise.all(allImagePathNames);
-    const itemInformationInDataBase = await addItemInformationToDataBase(
-        rest,
-        allImageUrl
-    );
+    console.log(item, "item");
+    const { variants, ...restOfItem } = item;
+    const { images, ...restOfVariant } = variants;
+    for (let i = 0; i < variants.length; i++) {
+        const getArrayOfImages = Array.from(variants[i].images);
+        const allUploadedImages = uploadImagesToStoragePromises(
+            item.name,
+            variants[i].color,
+            getArrayOfImages
+        );
+        const imageMetadataArr = await Promise.all(allUploadedImages);
+        const allImagePathNames =
+            getImageUrlFromStoragePromises(imageMetadataArr);
+        const allImageUrl = await Promise.all(allImagePathNames);
+        variants[i].images = allImageUrl;
+    }
+    const itemInformationInDataBase = await addItemInformationToDataBase(item);
     const itemID = itemInformationInDataBase._key.path.segments[1];
     await addIdtoItemInDataBase(itemID);
 };
 
-const uploadImagesToStoragePromises = (itemName, getArrayOfImages) => {
+const uploadImagesToStoragePromises = (
+    itemName,
+    variantColor,
+    getArrayOfImages
+) => {
     return getArrayOfImages.reduce((acc, curr) => {
-        return reduceArrayOfImages(acc, curr, itemName);
+        return reduceArrayOfImages(acc, curr, itemName, variantColor);
     }, []);
 };
 
-const reduceArrayOfImages = (acc, curr, itemName) => {
+const reduceArrayOfImages = (acc, curr, itemName, variantColor) => {
     const itemImageRef = ref(
         storage,
-        `/${imagesRootFolder}/${itemName}/${curr.name}`
+        `/${imagesRootFolder}/${itemName}/${variantColor}/${curr.name}`
     );
     const itemImagePromise = uploadBytes(itemImageRef, curr);
     acc.push(itemImagePromise);
@@ -49,13 +57,10 @@ const reduceMetadata = (acc, curr) => {
     return acc;
 };
 
-const addItemInformationToDataBase = async (rest, downloadLinks) => {
+const addItemInformationToDataBase = async (item) => {
     const itemInformation = await addDoc(
         collection(db, dataBaseCollectionName),
-        {
-            ...rest,
-            imageLinks: downloadLinks,
-        }
+        item
     );
     return itemInformation;
 };

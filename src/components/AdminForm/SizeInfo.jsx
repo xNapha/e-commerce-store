@@ -8,14 +8,14 @@ const SizeInfo = ({ number, register, errors }) => {
         <Field key={number}>
             <Input
                 label="Item Size"
-                name={`variants[${number}][size]`}
+                name={`variants[${number}][sizes][${number}]`}
                 type="string"
                 register={register}
                 errors={errors}
             />
             <Input
                 label="Item Quantity"
-                name={`variants[${number}][quantity]`}
+                name={`variants[${number}][sizes][${number}]`}
                 type="number"
                 register={register}
                 errors={errors}

@@ -21,7 +21,7 @@ const AdminForm = () => {
         setUpdatingDataBase(true);
         await addItemToDataBase(data);
         // console.log(data);
-        reset();
+        // reset();
         setUpdatingDataBase(false);
     };
     const renderAdditionalInputs = (additionalInput) => {
@@ -86,26 +86,6 @@ const AdminForm = () => {
                     label={`Category `}
                     name={`category`}
                     type="string"
-                    register={register}
-                    errors={errors}
-                />
-            </Field>
-            <Field>
-                <Input
-                    label="Description"
-                    name="description"
-                    type="text"
-                    register={register}
-                    errors={errors}
-                />
-            </Field>
-            <Field>
-                <Input
-                    label="Images"
-                    name="images"
-                    type="file"
-                    accept=" image/png, image/jpeg"
-                    multiple={true}
                     register={register}
                     errors={errors}
                 />

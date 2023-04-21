@@ -33,6 +33,17 @@ const ColorVariant = ({ number, register, errors }) => {
             />
             {renderAdditionalInputs(additionalSizeInput)}
             <Field>
+                <Input
+                    label="Images"
+                    name={`variants[${number}][images]`}
+                    type="file"
+                    accept=" image/png, image/jpeg"
+                    multiple={true}
+                    register={register}
+                    errors={errors}
+                />
+            </Field>
+            <Field>
                 <button
                     type="button"
                     onClick={() => {
