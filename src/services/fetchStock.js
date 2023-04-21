@@ -1,6 +1,12 @@
-export const fetchStockFromAPI = async () => {
-    const response = await fetch("https://fakestoreapi.com/products/");
-    const data = response.json();
+import { collection, getDocs } from "firebase/firestore";
+import { storage, db } from "../firebase";
 
-    return data;
+export const fetchStockFromAPI = async () => {
+    const querySnapshot = await getDocs(collection(db, "attire-stock"));
+    const allStock = [];
+    querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        allStock.push(doc.data());
+    });
+    return allStock;
 };

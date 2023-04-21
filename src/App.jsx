@@ -14,22 +14,21 @@ import Favourites from "./containers/Favourites/Favourites";
 const App = () => {
     const { currentStock } = useContext(StockContext);
     const renderRouteForEachStock = currentStock.map((item) => {
-        const { id, title, price, description, image, rating } = item;
+        const { id, name, price, description, image } = item;
         const DedicatedItemCard = (
             <DedicatedItem
                 id={id}
-                title={title}
+                name={name}
                 price={price}
                 description={description}
                 image={image}
                 item={item}
-                rate={rating.rate}
             />
         );
         return (
             <Route
-                key={`${itemUrlPath(title) + uuidv4()}`}
-                path={itemUrlPath(title)}
+                key={`${itemUrlPath(name) + uuidv4()}`}
+                path={`/attire/catalogue/${itemUrlPath(name)}`}
                 element={DedicatedItemCard}
             />
         );

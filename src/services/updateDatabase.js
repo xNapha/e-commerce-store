@@ -6,7 +6,6 @@ const imagesRootFolder = "attire-images";
 const dataBaseCollectionName = "attire-stock";
 
 export const addItemToDataBase = async (item) => {
-    console.log(item, "item");
     const { variants, ...restOfItem } = item;
     const { images, ...restOfVariant } = variants;
     for (let i = 0; i < variants.length; i++) {
@@ -69,4 +68,10 @@ const addIdtoItemInDataBase = async (itemID) => {
     await updateDoc(doc(db, dataBaseCollectionName, `${itemID}`), {
         id: itemID,
     });
+};
+
+export const reduceStock = async (cart) => {
+    // cart id, cart quantity, cart color
+
+    console.log(cart);
 };

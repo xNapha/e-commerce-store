@@ -82,8 +82,17 @@ const AdminForm = () => {
             </Field>
             <Field>
                 <Input
-                    label={`Category `}
+                    label={`Category`}
                     name={`category`}
+                    type="string"
+                    register={register}
+                    errors={errors}
+                />
+            </Field>
+            <Field>
+                <Input
+                    label={`Description`}
+                    name={`description`}
                     type="string"
                     register={register}
                     errors={errors}

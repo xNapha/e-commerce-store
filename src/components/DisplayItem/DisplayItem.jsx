@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { itemUrlPath } from "../../services/utility";
 
-const DisplayItem = ({ id, title, price, image, quantity }) => {
+const DisplayItem = ({ id, name, price, image, quantity }) => {
     const itemLowInStock = (quantity) => {
         let lowStockMessage = "";
         switch (quantity) {
@@ -17,8 +17,8 @@ const DisplayItem = ({ id, title, price, image, quantity }) => {
     };
 
     return (
-        <NavLink to={`/topir/puzzles/${itemUrlPath(title)}`}>
-            <p>{title}</p>
+        <NavLink to={`/attire/catalogue/${itemUrlPath(name)}`}>
+            <p>{name}</p>
             <p>{itemLowInStock(quantity)}</p>
         </NavLink>
     );
