@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import { useForm } from "react-hook-form";
 import Field from "./Field";
 import Input from "./Input";
 import { addItemToDataBase } from "../../services/updateDatabase";
 import { render } from "react-dom";
+import ColorVariant from "./ColorVariant";
 
 const AdminForm = () => {
     const {
@@ -12,73 +13,30 @@ const AdminForm = () => {
         reset,
         formState: { errors },
     } = useForm();
-    const [additionalSizeInput, setAdditionalSizeInput] = useState(1);
-    const [additionalCategoryInput, setAdditionalCategoryInput] = useState(1);
+
+    const [additionalColorInput, setAdditionalColorInput] = useState(1);
     const [updatingDataBase, setUpdatingDataBase] = useState(false);
 
     const submitForm = async (data) => {
         setUpdatingDataBase(true);
         await addItemToDataBase(data);
+        // console.log(data);
         reset();
         setUpdatingDataBase(false);
     };
-
-    const formSizeInfo = (number) => {
-        return (
-            <Field key={number}>
-                <Input
-                    label="Item Size"
-                    name={`variants[${number}][size]`}
-                    type="string"
-                    register={register}
-                    errors={errors}
-                />
-                <Input
-                    label="Item Quantity"
-                    name={`variants[${number}][quantity]`}
-                    type="number"
-                    register={register}
-                    errors={errors}
-                />
-                <button
-                    type="button"
-                    onClick={() => {
-                        setAdditionalSizeInput(additionalSizeInput - 1);
-                    }}
-                >
-                    Remove Field
-                </button>
-            </Field>
-        );
-    };
-
-    const categoryInfo = (number) => {
-        return (
-            <Field key={number}>
-                <Input
-                    label={`Category ${number + 1}`}
-                    name={`category[${number}]`}
-                    type="string"
-                    register={register}
-                    errors={errors}
-                />
-                <button
-                    type="button"
-                    onClick={() => {
-                        setAdditionalCategoryInput(additionalCategoryInput - 1);
-                    }}
-                >
-                    Remove Field
-                </button>
-            </Field>
-        );
-    };
-
-    const renderAdditionalInputs = (additionalSizeInput, formInfo) => {
+    const renderAdditionalInputs = (additionalInput) => {
         const formToRender = [];
-
-        for (let i = 0; i < additionalSizeInput; i++) {
-            formToRender.push(formInfo(i));
+        for (let i = 0; i < additionalInput; i++) {
+            formToRender.push(
+                <ColorVariant
+                    key={i}
+                    number={i}
+                    register={register}
+                    additionalColorInput={additionalColorInput}
+                    setAdditionalColorInput={setAdditionalColorInput}
+                    errors={errors}
+                />
+            );
         }
         return formToRender.map((jsx) => jsx);
     };
@@ -94,17 +52,26 @@ const AdminForm = () => {
                     errors={errors}
                 />
             </Field>
-            {renderAdditionalInputs(additionalSizeInput, formSizeInfo)}
+            {renderAdditionalInputs(additionalColorInput)}
             <Field>
                 <button
                     type="button"
                     onClick={() => {
-                        setAdditionalSizeInput(additionalSizeInput + 1);
+                        setAdditionalColorInput(additionalColorInput + 1);
                     }}
                 >
-                    Add Additional Size Field
+                    Additional Color Info
+                </button>
+                <button
+                    type="button"
+                    onClick={() => {
+                        setAdditionalColorInput(additionalColorInput - 1);
+                    }}
+                >
+                    Remove Color Field
                 </button>
             </Field>
+
             <Field>
                 <Input
                     label="Price"
@@ -114,16 +81,14 @@ const AdminForm = () => {
                     errors={errors}
                 />
             </Field>
-            {renderAdditionalInputs(additionalCategoryInput, categoryInfo)}
             <Field>
-                <button
-                    type="button"
-                    onClick={() => {
-                        setAdditionalCategoryInput(additionalCategoryInput + 1);
-                    }}
-                >
-                    Add Additional Category Field
-                </button>
+                <Input
+                    label={`Category `}
+                    name={`category`}
+                    type="string"
+                    register={register}
+                    errors={errors}
+                />
             </Field>
             <Field>
                 <Input
