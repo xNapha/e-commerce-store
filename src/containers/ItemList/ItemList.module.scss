@@ -1,4 +1,4 @@
 .Item_List {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
 }

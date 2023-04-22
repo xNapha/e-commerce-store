@@ -11,7 +11,7 @@ const ItemList = ({ stock, inCheckOutPage, inFavouritesPage }) => {
     const { cart, setCart } = useContext(CartContext);
     const { favourites, setFavourites } = useContext(FavouritesContext);
     const renderCurrentStock = stock?.map((item) => {
-        const { id, name, price, description, image, quantity } = item;
+        const { id, name, price, description, variants } = item;
         return (
             <DisplayItem
                 key={id + uuidv4()}
@@ -19,22 +19,20 @@ const ItemList = ({ stock, inCheckOutPage, inFavouritesPage }) => {
                 name={name}
                 price={price}
                 description={description}
-                image={image}
-                quantity={quantity}
+                image={variants[0].images[0]}
                 item={item}
             />
         );
     });
 
     const renderCart = cart?.map((inCart) => {
-        const { id, name, price, image, quantity, size, color } = inCart;
+        const { id, name, price, quantity, size, color } = inCart;
         return (
             <CartItem
                 key={id + uuidv4()}
                 id={id}
                 name={name}
                 price={price}
-                image={image}
                 quantity={quantity}
                 setCart={setCart}
                 cart={cart}
@@ -45,7 +43,7 @@ const ItemList = ({ stock, inCheckOutPage, inFavouritesPage }) => {
     });
 
     const renderFavourites = favourites?.map((favourite) => {
-        const { id, name, price, description, image, quantity } = favourite;
+        const { id, name, price, description } = favourite;
         return (
             <DisplayItem
                 key={id + uuidv4()}
@@ -53,8 +51,6 @@ const ItemList = ({ stock, inCheckOutPage, inFavouritesPage }) => {
                 name={name}
                 price={price}
                 description={description}
-                image={image}
-                quantity={quantity}
                 item={favourite}
             />
         );
