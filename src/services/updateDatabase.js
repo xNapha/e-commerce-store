@@ -72,35 +72,41 @@ const addIdtoItemInDataBase = async (itemID) => {
 
 export const reduceStock = async (cart, currentStock) => {
     // map through currentStock and reduce each quantity by each item in cart
-    const updatedStock = currentStock.map((item) => {
-        const { variants, ...rest } = item;
-        const foundIdInCart = cart.find((inCart) => item.id === inCart.id);
-        if (!foundIdInCart) {
-            return item;
-        }
-        const updatedItem = item.variants.map((variant) => {
-            const { sizes, ...rest } = variant;
-            const foundVariant = variant.color === foundIdInCart.color;
-            if (!foundVariant) {
-                return variant;
-            }
-            const updatedVariant = variant.sizes.map((size) => {
-                const { quantity, ...rest } = size;
-                const foundSize = size.size === foundIdInCart.size;
-                if (!foundSize) {
-                    return size;
-                }
-                return {
-                    quantity: size.quantity - foundIdInCart.quantity,
-                    ...rest,
-                };
-            });
-            return { sizes: updatedVariant, ...rest };
-        });
-        return { variants: updatedItem, ...rest };
-    });
-    const updatedStockPromises = updatedStock.map((item) => {
-        return updateDoc(doc(db, dataBaseCollectionName, item.id), { ...item });
-    });
+    const updatedStock = currentStock.map((item) =>
+        matchStockIdToCartItemId(item, cart)
+    );
+    const updatedStockPromises = updatedStock.map((item) =>
+        updateDoc(doc(db, dataBaseCollectionName, item.id), { ...item })
+    );
     await Promise.all(updatedStockPromises);
+};
+const matchStockIdToCartItemId = (item, cart) => {
+    const { variants, ...rest } = item;
+    const foundIdInCart = cart.find((inCart) => item.id === inCart.id);
+    if (!foundIdInCart) return item;
+
+    const updatedItem = item.variants.map((variant) =>
+        matchStockVariantToCartItemVariant(variant, foundIdInCart)
+    );
+    return { variants: updatedItem, ...rest };
+};
+const matchStockVariantToCartItemVariant = (variant, foundIdInCart) => {
+    const { sizes, ...rest } = variant;
+    const foundVariant = variant.color === foundIdInCart.color;
+    if (!foundVariant) return variant;
+
+    const updatedVariant = variant.sizes.map((item) =>
+        matchStockSizeToCartItemSize(item, foundIdInCart)
+    );
+    return { sizes: updatedVariant, ...rest };
+};
+
+const matchStockSizeToCartItemSize = (item, foundIdInCart) => {
+    const foundSize = item.size === foundIdInCart.size;
+    if (!foundSize) return item;
+
+    return {
+        quantity: item.quantity - foundIdInCart.quantity,
+        ...rest,
+    };
 };
