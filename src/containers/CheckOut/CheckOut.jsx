@@ -44,7 +44,7 @@ const CheckOut = () => {
         <div>
             <ItemList inCheckOutPage={true} />
             {purchasedCart && <p>Thank you for your purchase</p>}
-            {!purchasedCart && checkOutSummarySection}
+            {!purchasedCart && cart.length > 0 && checkOutSummarySection}
         </div>
     );
 };

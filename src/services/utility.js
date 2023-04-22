@@ -19,8 +19,6 @@ const updateCartInformation = (cart, state) => {
 };
 
 export const checkIfInCart = (cart, state) => {
-    console.log(cart, "cart");
-    console.log(state, "state");
     const foundInCart = cart.find(
         (object) =>
             object.id === state.id &&

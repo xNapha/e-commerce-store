@@ -14,6 +14,8 @@ import {
     addToCart,
     checkItemAvailability,
 } from "../../services/DedicatedItemUtility";
+import { FavouritesContext } from "../../contexts/FavouritesProvider";
+import IMAGES from "../../assets/images";
 
 const DedicatedItem = ({
     id,
@@ -26,9 +28,19 @@ const DedicatedItem = ({
 }) => {
     const { cart, setCart, setNewItemAnimation } = useContext(CartContext);
     const { currentStock } = useContext(StockContext);
+    const { favourites, setFavourites, checkIfInFavourites, applyHeartSvg } =
+        useContext(FavouritesContext);
     const [error, setError] = useState(false);
     const [lowStockError, setLowStockError] = useState(false);
     const [disableAddToCart, setDisableAddToCart] = useState(false);
+
+    const foundInFavourites = favourites.find(
+        (favourite) => favourite.id === id
+    );
+    const [heartIcon, setHeartIcon] = useState(
+        foundInFavourites ? true : false
+    );
+
     const [currentColorVariant, setCurrentColorVariant] = useState(
         item.variants[0]
     );
@@ -106,6 +118,8 @@ const DedicatedItem = ({
         setCurrentColorVariant(item.variants[0]);
         setError(false);
         setLowStockError(false);
+        foundInFavourites;
+        setHeartIcon(foundInFavourites ? true : false);
     }, [item]);
 
     useEffect(() => {
@@ -121,6 +135,19 @@ const DedicatedItem = ({
                 <div>
                     <h2>{name}</h2>
                     <h4>${price}</h4>
+                    <div
+                        onClick={() => {
+                            checkIfInFavourites(
+                                favourites,
+                                id,
+                                item,
+                                setFavourites,
+                                setHeartIcon
+                            );
+                        }}
+                    >
+                        <img src={applyHeartSvg(heartIcon)} alt="heart" />
+                    </div>
                     {checkItemAvailability(
                         currentSelectedSize,
                         lowStockVariable,
