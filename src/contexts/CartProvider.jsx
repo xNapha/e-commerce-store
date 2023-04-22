@@ -2,7 +2,6 @@ import { createContext, useEffect, useState } from "react";
 import { countTotalItemsInCart } from "../services/utility";
 
 export const CartContext = createContext();
-// cart will be linked to the firebase/firestore database
 const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
     const [totalItems, setTotalItems] = useState(0);

@@ -2,12 +2,10 @@ import React, { useContext, useState, useEffect } from "react";
 import { CartContext } from "../../contexts/CartProvider";
 import ItemList from "../ItemList/ItemList";
 import { getTotalPrice } from "../../services/utility";
-import { useForm } from "react-hook-form";
 import { reduceStock } from "../../services/updateDatabase";
 import { StockContext } from "../../contexts/StockProvider";
 
 const CheckOut = () => {
-    const { register, handleSubmit } = useForm();
     const { cart, setCart } = useContext(CartContext);
     const { purchasedCart, setPurchasedCart } = useContext(StockContext);
     const [error, setError] = useState(false);
@@ -27,7 +25,9 @@ const CheckOut = () => {
     };
 
     useEffect(() => {
-        setError(true);
+        if (cart.length === 0) {
+            setError(true);
+        }
         return setPurchasedCart(false);
     }, [cart]);
 

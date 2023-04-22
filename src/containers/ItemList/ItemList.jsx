@@ -1,6 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { fetchStockFromAPI } from "../../services/fetchStock";
-import { StockContext } from "../../contexts/StockProvider";
+import React, { useContext } from "react";
 import DisplayItem from "../../components/DisplayItem/DisplayItem";
 import CartItem from "../../components/CartItem/CartItem";
 import styles from "./ItemList.module.scss";
