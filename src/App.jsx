@@ -14,7 +14,7 @@ import Favourites from "./containers/Favourites/Favourites";
 const App = () => {
     const { currentStock } = useContext(StockContext);
     const renderRouteForEachStock = currentStock.map((item) => {
-        const { id, name, price, description, image } = item;
+        const { id, name, price, description, image, variants } = item;
         const DedicatedItemCard = (
             <DedicatedItem
                 id={id}
@@ -23,6 +23,7 @@ const App = () => {
                 description={description}
                 image={image}
                 item={item}
+                variants={variants}
             />
         );
         return (

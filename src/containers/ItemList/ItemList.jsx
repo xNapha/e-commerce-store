@@ -26,17 +26,20 @@ const ItemList = ({ stock, inCheckOutPage }) => {
     });
 
     const renderCart = cart?.map((inCart) => {
-        const { id, name, price, description, image } = inCart?.item;
+        const { id, name, price, image, quantity, size, color } = inCart;
+        console.log(name);
         return (
             <CartItem
-                key={id}
+                key={id + uuidv4()}
                 id={id}
                 name={name}
                 price={price}
                 image={image}
-                quantity={inCart.quantity}
+                quantity={quantity}
                 setCart={setCart}
                 cart={cart}
+                size={size}
+                color={color}
             />
         );
     });

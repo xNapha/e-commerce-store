@@ -70,8 +70,37 @@ const addIdtoItemInDataBase = async (itemID) => {
     });
 };
 
-export const reduceStock = async (cart) => {
-    // cart id, cart quantity, cart color
-
-    console.log(cart);
+export const reduceStock = async (cart, currentStock) => {
+    // map through currentStock and reduce each quantity by each item in cart
+    const updatedStock = currentStock.map((item) => {
+        const { variants, ...rest } = item;
+        const foundIdInCart = cart.find((inCart) => item.id === inCart.id);
+        if (!foundIdInCart) {
+            return item;
+        }
+        const updatedItem = item.variants.map((variant) => {
+            const { sizes, ...rest } = variant;
+            const foundVariant = variant.color === foundIdInCart.color;
+            if (!foundVariant) {
+                return variant;
+            }
+            const updatedVariant = variant.sizes.map((size) => {
+                const { quantity, ...rest } = size;
+                const foundSize = size.size === foundIdInCart.size;
+                if (!foundSize) {
+                    return size;
+                }
+                return {
+                    quantity: size.quantity - foundIdInCart.quantity,
+                    ...rest,
+                };
+            });
+            return { sizes: updatedVariant, ...rest };
+        });
+        return { variants: updatedItem, ...rest };
+    });
+    const updatedStockPromises = updatedStock.map((item) => {
+        return updateDoc(doc(db, dataBaseCollectionName, item.id), { ...item });
+    });
+    await Promise.all(updatedStockPromises);
 };

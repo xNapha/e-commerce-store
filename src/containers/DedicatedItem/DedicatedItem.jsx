@@ -9,30 +9,108 @@ import {
 import ItemList from "../ItemList/ItemList";
 import { StockContext } from "../../contexts/StockProvider";
 
-const DedicatedItem = ({ id, name, price, description, image, item }) => {
+const DedicatedItem = ({
+    id,
+    name,
+    price,
+    description,
+    image,
+    item,
+    variants,
+}) => {
     const { cart, setCart, setNewItemAnimation } = useContext(CartContext);
     const { currentStock } = useContext(StockContext);
     const { handleSubmit } = useForm();
     const [error, setError] = useState(false);
+    const [currentColorVariant, setCurrentColorVariant] = useState(
+        item.variants[0]
+    );
+    const [sizesAvailable, setSizesAvailable] = useState(
+        item.variants[0].sizes
+    );
+    const [currentSelectedSize, setCurrentSelectedSize] = useState(
+        item.variants[0].sizes[0].size
+    );
 
     const reducer = (state, action) => {
         switch (action.type) {
             case "increment":
-                return { quantity: state.quantity + 1, item: state.item };
+                return {
+                    quantity: state.quantity + 1,
+                    id: state.id,
+                    name: state.name,
+                    price: state.price,
+                    image: state.image,
+                    color: state.color,
+                    size: state.size,
+                };
             case "decrement":
                 return state.quantity <= 1
-                    ? { quantity: 1, item: state.item }
-                    : { quantity: state.quantity - 1, item: state.item };
+                    ? {
+                          quantity: 1,
+                          id: state.id,
+                          name: state.name,
+                          price: state.price,
+                          image: state.image,
+                          color: state.color,
+                          size: state.size,
+                      }
+                    : {
+                          quantity: state.quantity - 1,
+                          id: state.id,
+                          name: state.name,
+                          price: state.price,
+                          image: state.image,
+                          color: state.color,
+                          size: state.size,
+                      };
+            case "changeColor":
+                return {
+                    quantity: 1,
+                    id: state.id,
+                    name: state.name,
+                    price: state.price,
+                    image: state.image,
+                    color: currentColorVariant.color,
+                    size: state.size,
+                };
+            case "changeSize":
+                return {
+                    quantity: 1,
+                    id: state.id,
+                    name: state.name,
+                    price: state.price,
+                    image: state.image,
+                    color: state.color,
+                    size: currentSelectedSize,
+                };
             case "itemChange":
-                return { quantity: 1, item: item };
+                return {
+                    quantity: 1,
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    image: item.variants[0].images[0],
+                    color: item.variants[0].color,
+                    size: item.variants[0].sizes[0].size,
+                };
             default:
                 return state;
         }
     };
 
-    const [state, dispatch] = useReducer(reducer, { quantity: 1, item: item });
+    const [state, dispatch] = useReducer(reducer, {
+        quantity: 1,
+        id: id,
+        name: name,
+        price: price,
+        image: image,
+        color: currentColorVariant.color,
+        size: currentSelectedSize,
+    });
 
-    const addToCart = () => {
+    const addToCart = (e) => {
+        e.preventDefault();
         setCart(checkIfInCart(cart, state));
         setNewItemAnimation(true);
     };
@@ -46,9 +124,49 @@ const DedicatedItem = ({ id, name, price, description, image, item }) => {
         dispatch({ type: "decrement" });
     };
 
+    const changeToDifferentColorVaraints = () => {
+        return variants.map((variant) => {
+            return (
+                <button
+                    key={variant.color}
+                    type="button"
+                    onClick={() => {
+                        setCurrentColorVariant(variant);
+                        dispatch({ type: "changeColor" });
+                        setSizesAvailable(variant.sizes);
+                    }}
+                >
+                    {variant.color}
+                </button>
+            );
+        });
+    };
+
+    const selectSizeForPurchase = () => {
+        return sizesAvailable.map((size) => {
+            return (
+                <button
+                    type="button"
+                    key={size.size}
+                    onClick={() => {
+                        setCurrentSelectedSize(size.size);
+                        dispatch({ type: "changeSize" });
+                    }}
+                >
+                    {size.size}
+                </button>
+            );
+        });
+    };
+
     useEffect(() => {
         dispatch({ type: "itemChange" });
+        setCurrentColorVariant(item.variants[0]);
     }, [item]);
+    useEffect(() => {
+        // console.log(currentColorVariant.color);
+        // console.log(state);
+    });
 
     return (
         <React.Fragment>
@@ -57,7 +175,10 @@ const DedicatedItem = ({ id, name, price, description, image, item }) => {
                 <div>
                     <h2>{name}</h2>
                     <h4>${price}</h4>
-                    <form onSubmit={handleSubmit(addToCart)}>
+                    <img src={currentColorVariant.images[0]} />
+                    <form onSubmit={addToCart}>
+                        <div>{changeToDifferentColorVaraints()}</div>
+                        <div>{selectSizeForPurchase()}</div>
                         <div>
                             <button type="button" onClick={decrement}>
                                 -

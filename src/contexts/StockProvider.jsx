@@ -6,6 +6,7 @@ export const StockContext = createContext();
 
 export const StockProvider = ({ children }) => {
     const [currentStock, setCurrentStock] = useState([]);
+    const [purchasedCart, setPurchasedCart] = useState(false);
 
     useEffect(() => {
         const wrapper = async () => {
@@ -14,8 +15,13 @@ export const StockProvider = ({ children }) => {
             setCurrentStock(stock);
         };
         wrapper();
-    }, []);
-    const value = { currentStock, setCurrentStock };
+    }, [purchasedCart]);
+    const value = {
+        currentStock,
+        setCurrentStock,
+        purchasedCart,
+        setPurchasedCart,
+    };
     return (
         <StockContext.Provider value={value}>{children}</StockContext.Provider>
     );

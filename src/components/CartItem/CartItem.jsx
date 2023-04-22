@@ -1,13 +1,27 @@
 import { checkItemQuantity } from "../../services/utility";
 
-const CartItem = ({ id, title, price, image, quantity, cart, setCart }) => {
+const CartItem = ({
+    id,
+    name,
+    price,
+    image,
+    quantity,
+    size,
+    color,
+    cart,
+    setCart,
+}) => {
     const roundedPricePoint = (
         Math.round(quantity * price * 100) / 100
     ).toFixed(2);
 
     const decrementOnClick = () => {
         const updateItem = cart.map((inCart) => {
-            if (inCart.item.id === id) {
+            if (
+                inCart.id === id &&
+                inCart.size === size &&
+                inCart.color === color
+            ) {
                 inCart.quantity -= 1;
             }
             return inCart;
@@ -16,7 +30,12 @@ const CartItem = ({ id, title, price, image, quantity, cart, setCart }) => {
     };
     const incrementOnClick = () => {
         const updateItem = cart.map((inCart) => {
-            if (inCart.item.id === id && inCart.quantity < 10) {
+            if (
+                inCart.id === id &&
+                inCart.size === size &&
+                inCart.color === color &&
+                inCart.quantity < 10
+            ) {
                 inCart.quantity += 1;
             }
             return inCart;
@@ -26,8 +45,10 @@ const CartItem = ({ id, title, price, image, quantity, cart, setCart }) => {
 
     return (
         <div>
-            <img src="" alt={title} />
-            <h5>{title}</h5>
+            <img src={image} alt={name} />
+            <h5>
+                {name} - {size}
+            </h5>
             <div>
                 <button type="button" onClick={decrementOnClick}>
                     -

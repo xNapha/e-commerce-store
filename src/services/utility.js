@@ -9,13 +9,24 @@ export const itemUrlPath = (title) => {
 
 const updateCartInformation = (cart, state) => {
     return cart.reduce((acc, curr) => {
-        curr.item.id === state.item.id ? acc.push(state) : acc.push(curr);
+        curr.id === state.id &&
+        curr.color === state.color &&
+        curr.size === state.size
+            ? acc.push(state)
+            : acc.push(curr);
         return [...acc];
     }, []);
 };
 
 export const checkIfInCart = (cart, state) => {
-    const foundInCart = cart.find((object) => object.item.id === state.item.id);
+    console.log(cart, "cart");
+    console.log(state, "state");
+    const foundInCart = cart.find(
+        (object) =>
+            object.id === state.id &&
+            object.color === state.color &&
+            object.size === state.size
+    );
     return foundInCart ? updateCartInformation(cart, state) : [...cart, state];
 };
 
@@ -36,7 +47,7 @@ export const getItemsWithInTheSameCategory = (currentStock, item) => {
 // };
 
 export const getTotalPrice = (cart) => {
-    return cart.reduce((acc, curr) => acc + curr.quantity * curr.item.price, 0);
+    return cart.reduce((acc, curr) => acc + curr.quantity * curr.price, 0);
 };
 
 export const checkItemQuantity = (cart) => {
