@@ -20,7 +20,9 @@ export const selectSizeForPurchase = (
                     handleClick(size);
                 }}
             >
-                {size.size.replace(/[a-z]/i, (e) => e.toUpperCase())}
+                {size.size.replace(/(([X]*[L,M,S]){1})/i, (e) =>
+                    e.toUpperCase()
+                )}
             </option>
         );
     });
@@ -84,15 +86,8 @@ export const userInputChange = (e, dispatch, setInputValue, setError) => {
     dispatch({ type: "onChange" });
 };
 
-export const addToCart = (
-    setCart,
-    checkIfInCart,
-    cart,
-    state,
-    setNewItemAnimation
-) => {
+export const addToCart = (setCart, checkIfInCart, cart, state) => {
     setCart(checkIfInCart(cart, state));
-    setNewItemAnimation(true);
 };
 
 export const checkItemAvailability = (

@@ -1,33 +1,20 @@
 import { createContext, useEffect, useState } from "react";
-import { countTotalItemsInCart } from "../services/utility";
+import { countTotalPriceInCart } from "../services/utility";
 
 export const CartContext = createContext();
 const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
-    const [totalItems, setTotalItems] = useState(0);
-    const [newItemAnimation, setNewItemAnimation] = useState(false);
+    const [totalPrice, setTotalPrice] = useState(0);
 
     const value = {
         cart,
         setCart,
-        totalItems,
-        newItemAnimation,
-        setNewItemAnimation,
+        totalPrice,
     };
 
     useEffect(() => {
-        if (totalItems !== countTotalItemsInCart(cart)) {
-            setTotalItems(countTotalItemsInCart(cart));
-        }
+        setTotalPrice(countTotalPriceInCart(cart));
     }, [cart]);
-
-    useEffect(() => {
-        if (newItemAnimation) {
-            setTimeout(() => {
-                setNewItemAnimation(false);
-            }, 1000);
-        }
-    }, [newItemAnimation]);
 
     return (
         <CartContext.Provider value={value}>{children}</CartContext.Provider>

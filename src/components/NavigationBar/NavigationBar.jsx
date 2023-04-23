@@ -5,11 +5,11 @@ import styles from "./NavigationBar.module.scss";
 import IMAGES from "../../assets/images";
 
 const NavigationBar = () => {
-    const { totalItems, newItemAnimation } = useContext(CartContext);
+    const { totalPrice } = useContext(CartContext);
 
-    const applyCartAnimation = newItemAnimation
-        ? `${styles.New_Item_In_Cart} ${styles["Navigation_Bar-links-cart"]}`
-        : `${styles["Navigation_Bar-links-cart"]}`;
+    const getPriceWithDecimals = (Math.round(totalPrice * 100) / 100).toFixed(
+        2
+    );
 
     return (
         <header className={styles.Navigation_Bar}>
@@ -23,9 +23,14 @@ const NavigationBar = () => {
                 <NavLink to="/attire/catalogue">Catalogue</NavLink>
                 <NavLink to="/attire/favourites">Favourites</NavLink>
                 <NavLink to="/attire/checkout">
-                    <div className={applyCartAnimation}>
-                        <img src={IMAGES.shoppingCart} alt="Checkout" />
-                        {totalItems > 0 && <p>{totalItems}</p>}
+                    <div className={styles["Navigation_Bar-links-cart"]}>
+                        <p>
+                            Your Cart{" "}
+                            {totalPrice > 0 && (
+                                <span>${getPriceWithDecimals}</span>
+                            )}
+                        </p>
+                        {/* <img src={IMAGES.shoppingCart} alt="Checkout" /> */}
                     </div>
                 </NavLink>
             </div>

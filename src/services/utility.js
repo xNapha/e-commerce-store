@@ -28,8 +28,11 @@ export const checkIfInCart = (cart, state) => {
     return foundInCart ? updateCartInformation(cart, state) : [...cart, state];
 };
 
-export const countTotalItemsInCart = (cart) => {
-    return cart.reduce((acc, curr) => acc + curr.quantity, 0);
+export const countTotalPriceInCart = (cart) => {
+    return cart.reduce(
+        (acc, curr) => acc + Number(curr.price) * curr.quantity,
+        0
+    );
 };
 
 export const getItemsWithInTheSameCategory = (currentStock, item) => {

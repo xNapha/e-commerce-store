@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-
+import IMAGES from "../../assets/images";
 import { getItemsWithInTheSameCategory } from "../../services/utility";
 import ItemList from "../ItemList/ItemList";
 import { StockContext } from "../../contexts/StockProvider";
@@ -28,8 +28,24 @@ const DedicatedItem = ({ id, name, price, description, item, variants }) => {
     const [currentSelectedImage, setCurrentSelectedImage] = useState(
         item.variants[0].images[0]
     );
+    const [imagesIndex, setImagesIndex] = useState(0);
     const lowStockVariable = 5;
     const outOfStockVariable = 0;
+
+    const previousImage = () => {
+        const previousIndex = imagesIndex - 1;
+        const absolutePreviousIndex = Math.abs(previousIndex) % 4;
+        setImagesIndex(previousIndex);
+        setCurrentSelectedImage(
+            currentColorVariant.images[absolutePreviousIndex]
+        );
+    };
+    const nextImage = () => {
+        const nextIndex = imagesIndex + 1;
+        const absoluteNextIndex = Math.abs(nextIndex) % 4;
+        setImagesIndex(nextIndex);
+        setCurrentSelectedImage(currentColorVariant.images[absoluteNextIndex]);
+    };
 
     const handleClick = () => {
         checkIfInFavourites(favourites, id, item, setFavourites, setHeartIcon);
@@ -40,14 +56,23 @@ const DedicatedItem = ({ id, name, price, description, item, variants }) => {
         outOfStockVariable
     );
 
+    const renderVariantImages = currentColorVariant.images.map((image) => {
+        return (
+            <img
+                src={image}
+                key={image}
+                className={styles["Dedicated_Item-product_image_carousel"]}
+                onClick={() => {
+                    setCurrentSelectedImage(image);
+                }}
+            />
+        );
+    });
+
     useEffect(() => {
         foundInFavourites;
         setHeartIcon(foundInFavourites ? true : false);
     }, [item]);
-
-    useEffect(() => {
-        console.log(Math.abs(-1) % 4);
-    });
 
     return (
         <div className={styles.Dedicated_Item}>
@@ -58,20 +83,19 @@ const DedicatedItem = ({ id, name, price, description, item, variants }) => {
                             styles["Dedicated_Item-product_image_buttons"]
                         }
                     >
-                        <button
-                            className={
-                                styles["Dedicated_Item-product_previous_image"]
-                            }
+                        <div
+                            className={` ${styles["Dedicated_Item-product_arrows"]} ${styles["Dedicated_Item-product_previous_image"]}`}
+                            onClick={previousImage}
                         >
-                            Left
-                        </button>
-                        <button
-                            className={
-                                styles["Dedicated_Item-product_next_image"]
-                            }
+                            <img src={IMAGES.arrowLeft} alt="left arrow" />
+                        </div>
+
+                        <div
+                            className={` ${styles["Dedicated_Item-product_arrows"]} ${styles["Dedicated_Item-product_next_image"]}`}
+                            onClick={nextImage}
                         >
-                            Right
-                        </button>
+                            <img src={IMAGES.arrowRight} alt="right arrow" />
+                        </div>
                     </div>
                     <img
                         src={currentSelectedImage}
@@ -79,22 +103,7 @@ const DedicatedItem = ({ id, name, price, description, item, variants }) => {
                             styles["Dedicated_Item-product_current_image"]
                         }
                     />
-                    {currentColorVariant.images.map((image) => {
-                        return (
-                            <img
-                                src={image}
-                                key={image}
-                                className={
-                                    styles[
-                                        "Dedicated_Item-product_image_carousel"
-                                    ]
-                                }
-                                onClick={() => {
-                                    setCurrentSelectedImage(image);
-                                }}
-                            />
-                        );
-                    })}
+                    {renderVariantImages}
                 </div>
                 <div className={styles["Dedicated_Item-product_information"]}>
                     <section
@@ -150,7 +159,7 @@ const DedicatedItem = ({ id, name, price, description, item, variants }) => {
                 </div>
             </section>
             <section>
-                <h4>You may also like this...</h4>
+                <h4>You may also like these...</h4>
                 <ItemList
                     stock={getItemsWithInTheSameCategory(currentStock, item)}
                 />

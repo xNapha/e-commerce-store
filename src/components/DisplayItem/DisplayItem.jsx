@@ -33,6 +33,8 @@ const DisplayItem = ({ id, name, price, image, quantity, item }) => {
 
     const displayItem = hoverOverItem ? image[0] : image[1];
 
+    const getPrice = (Math.round(price * 100) / 100).toFixed(2);
+
     useEffect(() => {
         const totalStockOfItem = item.variants.reduce(
             (acc, curr) =>
@@ -80,9 +82,13 @@ const DisplayItem = ({ id, name, price, image, quantity, item }) => {
                         <p className={styles["Display_Item-item_name"]}>
                             {name}
                         </p>
-                        <p className={styles["Display_Item-item_price"]}>
-                            ${(Math.round(price * 100) / 100).toFixed(2)}
-                        </p>
+                        {hoverOverItem ? (
+                            <p className={styles["Display_Item-item_price"]}>
+                                ${getPrice}
+                            </p>
+                        ) : (
+                            ""
+                        )}
                     </div>
                 </section>
             </NavLink>
