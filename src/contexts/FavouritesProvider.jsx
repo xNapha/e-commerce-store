@@ -1,10 +1,15 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import IMAGES from "../assets/images";
 
 export const FavouritesContext = createContext();
 
 const FavouritesProvider = ({ children }) => {
-    const [favourites, setFavourites] = useState([]);
+    if (!localStorage.attire) {
+        localStorage.setItem("attire", JSON.stringify([]));
+    }
+    const [favourites, setFavourites] = useState(
+        JSON.parse(localStorage.getItem("attire"))
+    );
 
     const checkIfInFavourites = (
         favourites,
@@ -37,6 +42,9 @@ const FavouritesProvider = ({ children }) => {
         checkIfInFavourites,
         applyHeartSvg,
     };
+    useEffect(() => {
+        localStorage.setItem("attire", JSON.stringify(favourites));
+    }, [favourites]);
 
     return (
         <FavouritesContext.Provider value={value}>
