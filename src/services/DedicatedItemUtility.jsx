@@ -13,15 +13,15 @@ export const selectSizeForPurchase = (
     };
     return currentColorVariant.sizes.map((size) => {
         return (
-            <button
+            <option
                 type="button"
                 key={size.size}
                 onClick={() => {
                     handleClick(size);
                 }}
             >
-                {size.size}
-            </button>
+                {size.size.replace(/[a-z]/i, (e) => e.toUpperCase())}
+            </option>
         );
     });
 };
@@ -30,9 +30,11 @@ export const changeToDifferentColorVaraints = (
     setCurrentColorVariant,
     dispatch,
     setError,
-    setLowStockError
+    setLowStockError,
+    setCurrentSelectedImage
 ) => {
     const handleClick = (variant) => {
+        setCurrentSelectedImage(variant.images[0]);
         setCurrentColorVariant(variant);
         dispatch({ type: "changeColor" });
         setError(false);
@@ -40,15 +42,14 @@ export const changeToDifferentColorVaraints = (
     };
     return variants.map((variant) => {
         return (
-            <button
+            <option
                 key={variant.color}
-                type="button"
                 onClick={() => {
                     handleClick(variant);
                 }}
             >
-                {variant.color}
-            </button>
+                {variant.color.replace(/[a-z]/i, (e) => e.toUpperCase())}
+            </option>
         );
     });
 };
@@ -71,6 +72,16 @@ export const decrement = (dispatch, setError, setLowStockError) => {
     setError(false);
     setLowStockError(false);
     dispatch({ type: "decrement" });
+};
+export const userInputChange = (e, dispatch, setInputValue, setError) => {
+    const currentVal = Number(e.target.value);
+    setInputValue(currentVal);
+    setError(false);
+    if (currentVal > 10) {
+        setError(true);
+        setInputValue(10);
+    }
+    dispatch({ type: "onChange" });
 };
 
 export const addToCart = (

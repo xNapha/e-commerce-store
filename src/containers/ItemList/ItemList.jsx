@@ -43,7 +43,7 @@ const ItemList = ({ stock, inCheckOutPage, inFavouritesPage }) => {
     });
 
     const renderFavourites = favourites?.map((favourite) => {
-        const { id, name, price, description } = favourite;
+        const { id, name, price, description, variants } = favourite;
         return (
             <DisplayItem
                 key={id + uuidv4()}
@@ -52,6 +52,7 @@ const ItemList = ({ stock, inCheckOutPage, inFavouritesPage }) => {
                 price={price}
                 description={description}
                 item={favourite}
+                image={variants[0].images}
             />
         );
     });

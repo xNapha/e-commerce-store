@@ -7,15 +7,7 @@ import { checkItemAvailability } from "../../services/DedicatedItemUtility";
 import { FavouritesContext } from "../../contexts/FavouritesProvider";
 import AddToCartForm from "../AddToCartForm/AddToCartForm";
 import styles from "./DedicatedItem.module.scss";
-const DedicatedItem = ({
-    id,
-    name,
-    price,
-    description,
-    image,
-    item,
-    variants,
-}) => {
+const DedicatedItem = ({ id, name, price, description, item, variants }) => {
     const { currentStock } = useContext(StockContext);
     const { favourites, setFavourites, checkIfInFavourites, applyHeartSvg } =
         useContext(FavouritesContext);
@@ -32,6 +24,9 @@ const DedicatedItem = ({
     );
     const [currentSelectedSize, setCurrentSelectedSize] = useState(
         item.variants[0].sizes[0]
+    );
+    const [currentSelectedImage, setCurrentSelectedImage] = useState(
+        item.variants[0].images[0]
     );
     const lowStockVariable = 5;
     const outOfStockVariable = 0;
@@ -50,13 +45,57 @@ const DedicatedItem = ({
         setHeartIcon(foundInFavourites ? true : false);
     }, [item]);
 
+    useEffect(() => {
+        console.log(Math.abs(-1) % 4);
+    });
+
     return (
         <div className={styles.Dedicated_Item}>
             <section className={styles["Dedicated_Item-product"]}>
-                <img
-                    src={currentColorVariant.images[0]}
-                    className={styles["Dedicated_Item-product_image"]}
-                />
+                <div>
+                    <div
+                        className={
+                            styles["Dedicated_Item-product_image_buttons"]
+                        }
+                    >
+                        <button
+                            className={
+                                styles["Dedicated_Item-product_previous_image"]
+                            }
+                        >
+                            Left
+                        </button>
+                        <button
+                            className={
+                                styles["Dedicated_Item-product_next_image"]
+                            }
+                        >
+                            Right
+                        </button>
+                    </div>
+                    <img
+                        src={currentSelectedImage}
+                        className={
+                            styles["Dedicated_Item-product_current_image"]
+                        }
+                    />
+                    {currentColorVariant.images.map((image) => {
+                        return (
+                            <img
+                                src={image}
+                                key={image}
+                                className={
+                                    styles[
+                                        "Dedicated_Item-product_image_carousel"
+                                    ]
+                                }
+                                onClick={() => {
+                                    setCurrentSelectedImage(image);
+                                }}
+                            />
+                        );
+                    })}
+                </div>
                 <div className={styles["Dedicated_Item-product_information"]}>
                     <section
                         className={
@@ -70,21 +109,20 @@ const DedicatedItem = ({
                                 ]
                             }
                         >
-                            <h2>{name}</h2>
-                            <div onClick={handleClick}>
-                                <img
-                                    src={applyHeartSvg(heartIcon)}
-                                    alt="heart"
-                                    className={
-                                        styles[
-                                            "Dedicated_Item-product_information-details_header-heart"
-                                        ]
-                                    }
-                                />
-                            </div>
-                            <h4>
-                                ${Math.round((price * 100) / 100).toFixed(2)}
-                            </h4>
+                            <h2>
+                                <span onClick={handleClick}>
+                                    <img
+                                        src={applyHeartSvg(heartIcon)}
+                                        alt="heart"
+                                        className={
+                                            styles[
+                                                "Dedicated_Item-product_information-details_header-heart"
+                                            ]
+                                        }
+                                    />
+                                </span>
+                                {name}
+                            </h2>
                         </div>
                         {renderWarning}
                     </section>
@@ -92,13 +130,13 @@ const DedicatedItem = ({
                         id={id}
                         name={name}
                         price={price}
-                        image={image}
                         item={item}
                         variants={variants}
                         currentColorVariant={currentColorVariant}
                         currentSelectedSize={currentSelectedSize}
                         setCurrentColorVariant={setCurrentColorVariant}
                         setCurrentSelectedSize={setCurrentSelectedSize}
+                        setCurrentSelectedImage={setCurrentSelectedImage}
                     />
                     <section
                         className={

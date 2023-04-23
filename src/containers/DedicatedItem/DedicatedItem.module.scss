@@ -3,21 +3,22 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         justify-items: center;
-        &_image {
+        &_current_image {
             width: 500px;
+        }
+        &_image_carousel {
+            width: 50px;
         }
         &_information {
             display: grid;
-            grid-template-rows: 100px 150px 250px;
-            > * {
-                border: 1px solid black;
-            }
+            grid-template-rows: 100px 260px 150px;
+            text-align: center;
             &-details {
                 &_header {
-                    display: grid;
-                    grid-template-columns: 1fr 40px;
                     h2 {
-                        font-size: 20px;
+                        span {
+                            padding-right: 10px;
+                        }
                     }
                     &-heart {
                         cursor: pointer;
@@ -26,6 +27,11 @@
                             hue-rotate(323deg) brightness(82%) contrast(99%);
                     }
                 }
+            }
+            &-description {
+                width: 95%;
+                margin: auto;
+                font-size: 15px;
             }
         }
     }
