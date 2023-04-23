@@ -4,7 +4,7 @@ import ItemList from "../ItemList/ItemList";
 import { getTotalPrice } from "../../services/utility";
 import { reduceStock } from "../../services/updateDatabase";
 import { StockContext } from "../../contexts/StockProvider";
-
+import styles from "./CheckOut.module.scss";
 const CheckOut = () => {
     const { cart, setCart } = useContext(CartContext);
     const { purchasedCart, setPurchasedCart } = useContext(StockContext);
@@ -41,7 +41,7 @@ const CheckOut = () => {
     );
 
     return (
-        <div>
+        <div className={styles.Check_Out}>
             <ItemList inCheckOutPage={true} />
             {purchasedCart && <p>Thank you for your purchase</p>}
             {!purchasedCart && cart.length > 0 && checkOutSummarySection}

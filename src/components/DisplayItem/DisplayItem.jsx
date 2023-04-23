@@ -5,7 +5,7 @@ import { FavouritesContext } from "../../contexts/FavouritesProvider";
 import IMAGES from "../../assets/images";
 import styles from "./DisplayItem.module.scss";
 
-const DisplayItem = ({ id, name, price, image, quantity, item }) => {
+const DisplayItem = ({ id, name, price, image, item }) => {
     const { favourites, setFavourites, checkIfInFavourites, applyHeartSvg } =
         useContext(FavouritesContext);
     const miniumStockAvailableBeforeWarning = 25;
@@ -67,7 +67,7 @@ const DisplayItem = ({ id, name, price, image, quantity, item }) => {
                 <section>
                     <div className={styles["Display_Item-images"]}>
                         <img
-                            src={displayItem}
+                            src={displayItem ?? IMAGES.defaultImage}
                             alt={name}
                             className={styles["Display_Item-images-preview"]}
                         />

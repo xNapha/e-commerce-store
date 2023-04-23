@@ -1,0 +1,16 @@
+.Check_Out {
+    text-align: center;
+    button {
+        padding: 5px;
+        background-color: white;
+        border: 1px solid black;
+        border-radius: 5px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: black;
+        color: white;
+        transition: 0.1s ease-in;
+    }
+}

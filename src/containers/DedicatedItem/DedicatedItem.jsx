@@ -161,6 +161,7 @@ const DedicatedItem = ({ id, name, price, description, item, variants }) => {
             <section>
                 <h4>You may also like these...</h4>
                 <ItemList
+                    inDedicatedPage={true}
                     stock={getItemsWithInTheSameCategory(currentStock, item)}
                 />
             </section>

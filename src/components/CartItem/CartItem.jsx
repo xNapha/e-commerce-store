@@ -1,15 +1,15 @@
 import { checkItemQuantity } from "../../services/utility";
-
+import styles from "./CartItem.module.scss";
 const CartItem = ({
     id,
     name,
     price,
-    image,
     quantity,
     size,
     color,
     cart,
     setCart,
+    image,
 }) => {
     const roundedPricePoint = (
         Math.round(quantity * price * 100) / 100
@@ -44,10 +44,10 @@ const CartItem = ({
     };
 
     return (
-        <div>
+        <div className={styles.Cart_Item}>
             <img src={image} alt={name} />
             <h5>
-                {name} - {size}
+                {name} - {color}/{size}
             </h5>
             <div>
                 <button type="button" onClick={decrementOnClick}>

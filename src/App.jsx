@@ -45,7 +45,12 @@ const App = () => {
                         <Route path="catalogue">
                             <Route
                                 path=""
-                                element={<ItemList stock={currentStock} />}
+                                element={
+                                    <ItemList
+                                        stock={currentStock}
+                                        inCataloguePage={true}
+                                    />
+                                }
                             />
                             {renderRouteForEachStock}
                         </Route>

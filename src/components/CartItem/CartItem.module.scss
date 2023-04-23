@@ -1,0 +1,32 @@
+.Cart_Item {
+    width: 85vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+    img {
+        width: 200px;
+    }
+    div {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        button {
+            border: 0px;
+            cursor: pointer;
+            background-color: white;
+            padding: 5px;
+        }
+        button:hover {
+            background-color: black;
+            color: white;
+            transition: 0.1s ease-in;
+        }
+        p {
+            width: 50px;
+            text-align: center;
+        }
+    }
+}
