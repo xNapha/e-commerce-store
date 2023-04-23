@@ -11,6 +11,7 @@ import { StockContext } from "./contexts/StockProvider";
 import { v4 as uuidv4 } from "uuid";
 import { itemUrlPath } from "./services/utility";
 import Favourites from "./containers/Favourites/Favourites";
+import styles from "./App.module.scss";
 const App = () => {
     const { currentStock } = useContext(StockContext);
     const renderRouteForEachStock = currentStock.map((item) => {
@@ -36,23 +37,25 @@ const App = () => {
     });
     return (
         <>
-            <NavigationBar />
-            <Routes>
-                <Route path="attire">
-                    <Route path="" element={<Homepage />} />
-                    <Route path="catalogue">
-                        <Route
-                            path=""
-                            element={<ItemList stock={currentStock} />}
-                        />
-                        {renderRouteForEachStock}
+            <div className={styles.App}>
+                <NavigationBar />
+                <Routes>
+                    <Route path="attire">
+                        <Route path="" element={<Homepage />} />
+                        <Route path="catalogue">
+                            <Route
+                                path=""
+                                element={<ItemList stock={currentStock} />}
+                            />
+                            {renderRouteForEachStock}
+                        </Route>
+                        <Route path="favourites" element={<Favourites />} />
+                        <Route path="checkout" element={<CheckOut />} />
+                        <Route path="adminAccess" element={<AdminForm />} />
                     </Route>
-                    <Route path="favourites" element={<Favourites />} />
-                    <Route path="checkout" element={<CheckOut />} />
-                    <Route path="adminAccess" element={<AdminForm />} />
-                </Route>
-                <Route path="*" element={<NotFound />} />
-            </Routes>
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </div>
         </>
     );
 };

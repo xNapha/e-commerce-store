@@ -11,25 +11,13 @@ const DisplayItem = ({ id, name, price, image, quantity, item }) => {
     const miniumStockAvailableBeforeWarning = 25;
     const [lowStockWarning, setLowStockWarning] = useState(false);
     const [hoverOverItem, setHoverOverItem] = useState(false);
+
     const foundInFavourites = favourites.find(
         (favourite) => favourite.id === id
     );
     const [heartIcon, setHeartIcon] = useState(
         foundInFavourites ? true : false
     );
-
-    const itemLowInStock = (quantity) => {
-        let lowStockMessage = "";
-        switch (quantity) {
-            case quantity <= 10:
-                lowStockMessage = `There are only ${quantity} left in stock`;
-                break;
-            default:
-                lowStockMessage = "";
-                break;
-        }
-        return lowStockMessage;
-    };
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -40,12 +28,10 @@ const DisplayItem = ({ id, name, price, image, quantity, item }) => {
         setHoverOverItem(true);
     };
     const onMouseLeave = () => {
-        setHoverOverItem(true);
+        setHoverOverItem(false);
     };
 
-    const lowStockCardStyles = lowStockWarning
-        ? `${styles["Display_Item-low_stock_warning"]} ${styles["low_stock_warning-visible"]}`
-        : `${styles["Display_Item-low_stock_warning"]}`;
+    const displayItem = hoverOverItem ? image[0] : image[1];
 
     useEffect(() => {
         const totalStockOfItem = item.variants.reduce(
@@ -58,18 +44,20 @@ const DisplayItem = ({ id, name, price, image, quantity, item }) => {
 
             0
         );
-        if (totalStockOfItem > miniumStockAvailableBeforeWarning)
+        if (totalStockOfItem <= miniumStockAvailableBeforeWarning)
             return setLowStockWarning(true);
     }, []);
 
     return (
-        <div className={styles.Display_Item}>
+        <div
+            className={styles.Display_Item}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+        >
             <NavLink to={`/attire/catalogue/${itemUrlPath(name)}`}>
-                {lowStockWarning && hoverOverItem && (
+                {lowStockWarning && (
                     <div
-                        className={lowStockCardStyles}
-                        onMouseEnter={onMouseEnter}
-                        onMouseLeave={onMouseLeave}
+                        className={`${styles["Display_Item-low_stock_warning"]} ${styles["low_stock_warning-visible"]}`}
                     >
                         Low Stock
                     </div>
@@ -77,7 +65,7 @@ const DisplayItem = ({ id, name, price, image, quantity, item }) => {
                 <section>
                     <div className={styles["Display_Item-images"]}>
                         <img
-                            src={image}
+                            src={displayItem}
                             alt={name}
                             className={styles["Display_Item-images-preview"]}
                         />

@@ -19,7 +19,7 @@ const ItemList = ({ stock, inCheckOutPage, inFavouritesPage }) => {
                 name={name}
                 price={price}
                 description={description}
-                image={variants[0].images[0]}
+                image={variants[0].images}
                 item={item}
             />
         );

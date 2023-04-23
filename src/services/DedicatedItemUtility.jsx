@@ -5,16 +5,19 @@ export const selectSizeForPurchase = (
     setError,
     setLowStockError
 ) => {
+    const handleClick = (size) => {
+        dispatch({ type: "changeSize" });
+        setCurrentSelectedSize(size);
+        setError(false);
+        setLowStockError(false);
+    };
     return currentColorVariant.sizes.map((size) => {
         return (
             <button
                 type="button"
                 key={size.size}
                 onClick={() => {
-                    dispatch({ type: "changeSize" });
-                    setCurrentSelectedSize(size);
-                    setError(false);
-                    setLowStockError(false);
+                    handleClick(size);
                 }}
             >
                 {size.size}
@@ -29,16 +32,19 @@ export const changeToDifferentColorVaraints = (
     setError,
     setLowStockError
 ) => {
+    const handleClick = (variant) => {
+        setCurrentColorVariant(variant);
+        dispatch({ type: "changeColor" });
+        setError(false);
+        setLowStockError(false);
+    };
     return variants.map((variant) => {
         return (
             <button
                 key={variant.color}
                 type="button"
                 onClick={() => {
-                    setCurrentColorVariant(variant);
-                    dispatch({ type: "changeColor" });
-                    setError(false);
-                    setLowStockError(false);
+                    handleClick(variant);
                 }}
             >
                 {variant.color}
@@ -83,11 +89,11 @@ export const checkItemAvailability = (
     lowStockVariable,
     outOfStockVariable
 ) => {
-    return currentSelectedSize.quantity > lowStockVariable ? (
+    const { quantity } = currentSelectedSize;
+    return quantity > lowStockVariable ? (
         ""
-    ) : currentSelectedSize.quantity <= lowStockVariable &&
-      currentSelectedSize.quantity > outOfStockVariable ? (
-        <p>Only {currentSelectedSize.quantity} remain </p>
+    ) : quantity <= lowStockVariable && quantity > outOfStockVariable ? (
+        <p>Only {quantity} remain </p>
     ) : (
         <p>Out of Stock</p>
     );
