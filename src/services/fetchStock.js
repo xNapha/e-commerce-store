@@ -1,12 +1,12 @@
 import { collection, getDocs } from "firebase/firestore";
 import { storage, db } from "../firebase";
 
-export const fetchStockFromAPI = async () => {
-    const querySnapshot = await getDocs(collection(db, "attire-stock"));
-    const allStock = [];
+export const fetchDataFromAPI = async (collectionName) => {
+    const querySnapshot = await getDocs(collection(db, collectionName));
+    const newArr = [];
     querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
-        allStock.push(doc.data());
+        newArr.push(doc.data());
     });
-    return allStock;
+    return newArr;
 };

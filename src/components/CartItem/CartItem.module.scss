@@ -1,8 +1,11 @@
 .Cart_Item {
     width: 85vw;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr 1fr;
+    width: 85vw;
+    max-width: 1500px;
+    margin: 0 20px;
+    justify-items: center;
     align-items: center;
     border-bottom: 1px solid black;
     img {
@@ -13,6 +16,7 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
+
         button {
             border: 0px;
             cursor: pointer;

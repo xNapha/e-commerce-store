@@ -58,11 +58,13 @@ const AddToCartForm = ({
             const { quantity, ...rest } = state;
             return { quantity: inputValue, ...rest };
         } else if (action.type === "changeColor") {
-            const { color, quantity, ...rest } = state;
+            const { color, quantity, image, ...rest } = state;
             setInputValue(minimumPurchaseVariable);
+            console.log(currentColorVariant);
             return {
                 quantity: minimumPurchaseVariable,
                 color: currentColorVariant.color,
+                image: currentColorVariant.images[0],
                 ...rest,
             };
         } else if (action.type === "changeSize") {

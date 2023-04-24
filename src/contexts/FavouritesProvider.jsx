@@ -1,16 +1,15 @@
 import React, { createContext, useEffect, useState } from "react";
 import IMAGES from "../assets/images";
+import {
+    addFavouritesToDatabase,
+    favouritesCollectionName,
+} from "../services/updateDatabase";
+import { fetchDataFromAPI } from "../services/fetchStock";
 
 export const FavouritesContext = createContext();
 
 const FavouritesProvider = ({ children }) => {
-    if (!localStorage.attire) {
-        localStorage.setItem("attire", JSON.stringify([]));
-    }
-    const [favourites, setFavourites] = useState(
-        JSON.parse(localStorage.getItem("attire"))
-    );
-
+    const [favourites, setFavourites] = useState([]);
     const checkIfInFavourites = (
         favourites,
         id,
@@ -36,16 +35,28 @@ const FavouritesProvider = ({ children }) => {
     const applyHeartSvg = (heartIcon) =>
         heartIcon ? IMAGES.fullHeart : IMAGES.emptyHeart;
 
+    useEffect(() => {
+        const asyncWrapper = async (favouritesCollectionName) => {
+            const favouritesInDataBase = await fetchDataFromAPI(
+                favouritesCollectionName
+            );
+            setFavourites(favouritesInDataBase[0].favourites);
+        };
+        asyncWrapper(favouritesCollectionName);
+    }, []);
+
+    useEffect(() => {
+        if (favourites.length !== 0) {
+            addFavouritesToDatabase({ favourites: favourites });
+        }
+    }, [favourites]);
+
     const value = {
         favourites,
         setFavourites,
         checkIfInFavourites,
         applyHeartSvg,
     };
-    useEffect(() => {
-        localStorage.setItem("attire", JSON.stringify(favourites));
-    }, [favourites]);
-
     return (
         <FavouritesContext.Provider value={value}>
             {children}

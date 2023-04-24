@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
-
-import { fetchStockFromAPI } from "../services/fetchStock";
+import { dataBaseCollectionName } from "../services/updateDatabase";
+import { fetchDataFromAPI } from "../services/fetchStock";
 
 export const StockContext = createContext();
 
@@ -9,11 +9,11 @@ export const StockProvider = ({ children }) => {
     const [purchasedCart, setPurchasedCart] = useState(false);
 
     useEffect(() => {
-        const wrapper = async () => {
-            const stock = await fetchStockFromAPI();
+        const wrapper = async (collectionName) => {
+            const stock = await fetchDataFromAPI(collectionName);
             setCurrentStock(stock);
         };
-        wrapper();
+        wrapper(dataBaseCollectionName);
     }, [purchasedCart]);
     const value = {
         currentStock,

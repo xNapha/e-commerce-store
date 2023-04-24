@@ -1,9 +1,11 @@
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage, db } from "../firebase";
-import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
+import { collection, addDoc, doc, updateDoc, setDoc } from "firebase/firestore";
 
 const imagesRootFolder = "attire-images";
-const dataBaseCollectionName = "attire-stock";
+export const dataBaseCollectionName = "attire-stock";
+export const favouritesCollectionName = "attire-favourites";
+export const cartCollectionName = "attire-cart";
 
 export const addItemToDataBase = async (item) => {
     const { variants, ...restOfItem } = item;
@@ -109,4 +111,18 @@ const matchStockSizeToCartItemSize = (item, foundIdInCart) => {
         quantity: item.quantity - foundIdInCart.quantity,
         ...rest,
     };
+};
+
+export const addFavouritesToDatabase = async (favouritesObj) => {
+    await updateDoc(
+        doc(db, favouritesCollectionName, "MLErzR0cJf6Y71Zq2Fty"),
+        favouritesObj
+    ).catch((err) => console.error(err));
+};
+
+export const addCartToDatabase = async (cartObj) => {
+    await updateDoc(
+        doc(db, cartCollectionName, "61tSJZETTivwigqI7Odx"),
+        cartObj
+    ).catch((err) => console.error(err));
 };
