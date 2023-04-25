@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState, useRef } from "react";
 import IMAGES from "../assets/images";
 import {
     addFavouritesToDatabase,
@@ -10,6 +10,7 @@ export const FavouritesContext = createContext();
 
 const FavouritesProvider = ({ children }) => {
     const [favourites, setFavourites] = useState([]);
+    const firstRender = useRef(true);
     const checkIfInFavourites = (
         favourites,
         id,
@@ -46,8 +47,10 @@ const FavouritesProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        if (favourites.length !== 0) {
+        if (!firstRender.current) {
             addFavouritesToDatabase({ favourites: favourites });
+        } else {
+            firstRender.current = false;
         }
     }, [favourites]);
 

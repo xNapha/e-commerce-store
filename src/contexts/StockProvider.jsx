@@ -15,12 +15,14 @@ export const StockProvider = ({ children }) => {
         };
         wrapper(dataBaseCollectionName);
     }, [purchasedCart]);
+
     const value = {
         currentStock,
         setCurrentStock,
         purchasedCart,
         setPurchasedCart,
     };
+
     return (
         <StockContext.Provider value={value}>{children}</StockContext.Provider>
     );

@@ -2,8 +2,9 @@ import { useState } from "react";
 import Field from "./Field";
 import Input from "./Input";
 import SizeInfo from "./SizeInfo";
+import styles from "./AdminForm.module.scss";
 
-const ColorVariant = ({ number, register, errors }) => {
+const ColorVariant = ({ number, register, errors, required }) => {
     const [additionalSizeInput, setAdditionalSizeInput] = useState(1);
 
     const renderAdditionalInputs = (additionalInput) => {
@@ -16,6 +17,7 @@ const ColorVariant = ({ number, register, errors }) => {
                     index={i}
                     register={register}
                     errors={errors}
+                    required={required}
                 />
             );
         }
@@ -23,13 +25,14 @@ const ColorVariant = ({ number, register, errors }) => {
     };
 
     return (
-        <Field key={number}>
+        <Field key={number} styles={styles["Admin_Form-color_variant"]}>
             <Input
                 label={`Item Variant`}
                 name={`variants[${number}][color]`}
                 type="string"
                 register={register}
                 errors={errors}
+                required={required}
             />
             {renderAdditionalInputs(additionalSizeInput)}
             <Field>
@@ -41,6 +44,7 @@ const ColorVariant = ({ number, register, errors }) => {
                     multiple={true}
                     register={register}
                     errors={errors}
+                    required={required}
                 />
             </Field>
             <Field>

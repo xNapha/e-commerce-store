@@ -1,6 +1,16 @@
 import React from "react";
 
-const Input = ({ label, name, type, register, accept, multiple, errors }) => {
+const Input = ({
+    label,
+    name,
+    type,
+    register,
+    accept,
+    multiple,
+    errors,
+    required,
+    min,
+}) => {
     return (
         <>
             <label>{label}</label>
@@ -9,6 +19,8 @@ const Input = ({ label, name, type, register, accept, multiple, errors }) => {
                 {...register(name)}
                 accept={accept}
                 multiple={multiple}
+                required={required}
+                min={min}
             />
             {errors && errors[name] && <p>{errors[name].message}</p>}
         </>

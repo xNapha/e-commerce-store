@@ -9,7 +9,7 @@ import {
 export const CartContext = createContext();
 const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
-    const cartRef = useRef(cart);
+    const firstRender = useRef(true);
     const [totalPrice, setTotalPrice] = useState(0);
 
     const value = {
@@ -27,8 +27,10 @@ const CartProvider = ({ children }) => {
 
     useEffect(() => {
         setTotalPrice(countTotalPriceInCart(cart));
-        if (cart.length !== 0) {
+        if (!firstRender.current) {
             addCartToDatabase({ cart: cart });
+        } else {
+            firstRender.current = false;
         }
     }, [cart]);
 

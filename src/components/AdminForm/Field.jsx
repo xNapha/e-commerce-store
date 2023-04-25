@@ -1,7 +1,7 @@
 import React from "react";
 
-const Field = ({ children }) => {
-    return <div>{children}</div>;
+const Field = ({ children, styles }) => {
+    return <div className={styles}>{children}</div>;
 };
 
 export default Field;
