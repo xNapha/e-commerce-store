@@ -1,9 +1,9 @@
+@use "../../styles/variables";
+@use "../../styles/mixins";
 .Item_List {
-    display: grid;
+    @include mixins.displayGrid(center, center);
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: 300px;
-    justify-items: center;
-    align-items: center;
     &-cover_image_present {
         margin-top: 500px;
     }
@@ -24,8 +24,6 @@
     width: 85vw;
 }
 .Check_Out_Page {
-    display: grid;
+    @include mixins.displayGrid(center, center);
     grid-auto-rows: 201px;
-    justify-items: center;
-    align-items: center;
 }

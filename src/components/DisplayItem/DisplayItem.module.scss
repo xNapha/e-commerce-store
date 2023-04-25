@@ -1,21 +1,21 @@
+@use "../../styles/variables";
+@use "../../styles/mixins";
+
 .Display_Item {
     width: 200px;
-    background-color: white;
+    background-color: variables.$primary-color;
     text-align: center;
     &-low_stock_warning {
         position: absolute;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        @include mixins.displayFlex(row, center, center);
         backdrop-filter: blur(5px);
         z-index: 1;
         background-color: rgba(0, 0, 0, 0.1);
     }
 }
 .Display_Item:hover {
-    cursor: pointer;
+    @include mixins.cursor();
 }
-
 .low_stock_warning-visible {
     visibility: visible;
 }

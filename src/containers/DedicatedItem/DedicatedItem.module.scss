@@ -1,36 +1,34 @@
+@use "../../styles/variables";
+@use "../../styles/mixins";
+
 .Dedicated_Item {
     &-product {
-        display: grid;
+        @include mixins.displayGrid(center);
         grid-template-columns: 1fr 1fr;
-        justify-items: center;
-
         &_arrows {
             width: 200px;
             position: absolute;
             height: 500px;
             display: flex;
-            cursor: pointer;
+            @include mixins.cursor();
             img {
                 width: 20px;
-                filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg)
-                    brightness(103%) contrast(103%);
+                filter: variables.$secondary-icon-color;
                 caret-color: transparent;
             }
         }
         &_arrows:hover {
             img {
-                filter: invert(0%) sepia(100%) saturate(7469%)
-                    hue-rotate(357deg) brightness(82%) contrast(95%);
+                filter: variables.$primary-icon-color;
             }
         }
         &_previous_image {
-            padding-left: 50px;
+            padding-left: variables.$dedicated-item-arrow-padding;
         }
         &_next_image {
-            display: flex;
-            padding-right: 50px;
+            @include mixins.displayFlex(row, flex-end);
+            padding-right: variables.$dedicated-item-arrow-padding;
             left: 396px;
-            justify-content: flex-end;
             img {
                 width: 20px;
             }
@@ -53,10 +51,7 @@
                         }
                     }
                     &-heart {
-                        cursor: pointer;
-                        width: 20px;
-                        filter: invert(0%) sepia(100%) saturate(7469%)
-                            hue-rotate(357deg) brightness(82%) contrast(95%);
+                        @include mixins.heartIcon();
                     }
                 }
             }

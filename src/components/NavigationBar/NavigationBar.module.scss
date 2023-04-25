@@ -1,15 +1,14 @@
+@use "../../styles/variables";
+@use "../../styles/mixins";
+
 .Navigation_Bar {
-    display: flex;
-    justify-content: space-between;
+    @include mixins.displayFlex(row, space-between, center);
     position: relative;
     left: 2.5vw;
-    align-items: center;
     height: 50px;
-    max-width: 95vw;
+    max-width: variables.$max-width-content;
     &-logo {
-        display: flex;
-        justify-content: left;
-        align-items: center;
+        @include mixins.displayFlex(row, left, center);
         img {
             max-width: 40px;
         }
@@ -21,9 +20,7 @@
     }
     &-links {
         max-width: 500px;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
+        @include mixins.displayFlex(row, flex-end, center);
         font-size: 20px;
         > * {
             margin: 0px 10px;

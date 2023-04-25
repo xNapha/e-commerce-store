@@ -1,10 +1,10 @@
+@use "../../styles/variables";
+@use "../../styles/mixins";
 .Admin_Form {
     margin: auto;
-    display: grid;
+    @include mixins.displayGrid(legacy, center);
     grid-template-columns: 1fr;
-    flex-direction: column;
-    align-items: center;
-    width: 700px;
+    width: variables.$admin-form-width;
     text-align: center;
     gap: 20px;
     &-main {
@@ -16,25 +16,19 @@
         grid-template-columns: 1fr;
         gap: 5px;
         > div {
-            display: flex;
-            justify-content: center;
+            @include mixins.displayFlex(center);
             margin: 0px 10px;
         }
     }
     &-size_info {
-        width: 700px;
-        display: grid;
+        width: variables.$admin-form-width;
+        @include mixins.displayGrid(center, center);
         grid-template-columns: 1fr 1fr 1fr 1fr;
         gap: 30px;
-        justify-items: center;
-        align-items: center;
     }
 }
 .Password {
-    display: flex;
-    text-align: center;
-    flex-direction: column;
-    align-items: center;
+    @include mixins.displayFlex(column, center, center);
     margin-top: 100px;
     > * {
         width: 300px;

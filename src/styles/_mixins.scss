@@ -1,0 +1,26 @@
+@use "./variables";
+@mixin displayFlex(
+    $flex-direction: row,
+    $justify-content: flex-start,
+    $align-items: normal
+) {
+    display: flex;
+    flex-direction: $flex-direction;
+    justify-content: $justify-content;
+    align-items: $align-items;
+}
+
+@mixin displayGrid($justify-items: legacy, $align-items: normal) {
+    display: grid;
+    justify-items: $justify-items;
+    align-items: $align-items;
+}
+
+@mixin cursor() {
+    cursor: pointer;
+}
+@mixin heartIcon() {
+    @include cursor();
+    filter: variables.$primary-icon-color;
+    width: 20px;
+}

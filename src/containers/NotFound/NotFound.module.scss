@@ -1,0 +1,7 @@
+@use "../../styles/variables";
+@use "../../styles/mixins";
+.Not_Found {
+    width: variables.$max-width-content;
+    text-align: center;
+    margin-top: 100px;
+}

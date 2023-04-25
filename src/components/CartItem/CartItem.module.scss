@@ -1,31 +1,29 @@
+@use "../../styles/variables";
+@use "../../styles/mixins";
 .Cart_Item {
-    width: 85vw;
     display: grid;
     grid-template-columns: 1fr 4fr 1fr 1fr;
-    width: 85vw;
+    width: variables.$max-width-content;
     max-width: 1500px;
     margin: 0 20px;
     justify-items: center;
     align-items: center;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid variables.$secondary-color;
     img {
         width: 200px;
     }
     div {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
+        @include mixins.displayFlex(row, center, center);
 
         button {
             border: 0px;
-            cursor: pointer;
-            background-color: white;
+            @include mixins.cursor();
+            background-color: variables.$primary-color;
             padding: 5px;
         }
         button:hover {
-            background-color: black;
-            color: white;
+            background-color: variables.$secondary-color;
+            color: variables.$primary-color;
             transition: 0.1s ease-in;
         }
         p {
