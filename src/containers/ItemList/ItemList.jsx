@@ -3,7 +3,7 @@ import DisplayItem from "../../components/DisplayItem/DisplayItem";
 import CartItem from "../../components/CartItem/CartItem";
 import styles from "./ItemList.module.scss";
 import { CartContext } from "../../contexts/CartProvider";
-import IMAGES from "../../assets/images";
+import IMAGES from "../../images/images";
 import { v4 as uuidv4 } from "uuid";
 import { FavouritesContext } from "../../contexts/FavouritesProvider";
 const ItemList = ({

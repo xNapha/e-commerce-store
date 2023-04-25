@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState, useRef } from "react";
-import IMAGES from "../assets/images";
+import IMAGES from "../images/images";
 import {
     addFavouritesToDatabase,
     favouritesCollectionName,

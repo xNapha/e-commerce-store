@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import IMAGES from "../../assets/images";
+import IMAGES from "../../images/images";
 import { getItemsWithInTheSameCategory } from "../../services/utility";
 import ItemList from "../ItemList/ItemList";
 import { StockContext } from "../../contexts/StockProvider";

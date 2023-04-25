@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { itemUrlPath } from "../../services/utility";
 import { FavouritesContext } from "../../contexts/FavouritesProvider";
-import IMAGES from "../../assets/images";
+import IMAGES from "../../images/images";
 import styles from "./DisplayItem.module.scss";
 
 const DisplayItem = ({ id, name, price, image, item }) => {

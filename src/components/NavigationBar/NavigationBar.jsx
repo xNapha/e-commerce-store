@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { CartContext } from "../../contexts/CartProvider";
 import styles from "./NavigationBar.module.scss";
-import IMAGES from "../../assets/images";
+import IMAGES from "../../images/images";
 
 const NavigationBar = () => {
     const { totalPrice } = useContext(CartContext);

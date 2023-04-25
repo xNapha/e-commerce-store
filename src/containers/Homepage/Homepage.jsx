@@ -1,5 +1,5 @@
 import React from "react";
-import IMAGES from "../../assets/images";
+import IMAGES from "../../images/images";
 import styles from "./Homepage.module.scss";
 const Homepage = () => {
     return (
