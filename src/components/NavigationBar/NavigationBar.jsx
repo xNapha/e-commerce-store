@@ -13,20 +13,16 @@ const NavigationBar = () => {
 
     return (
         <header className={styles.Navigation_Bar}>
-            <NavLink to="/e-commerce-store/attire/">
+            <NavLink to="/e-commerce-store/">
                 <div className={styles["Navigation_Bar-logo"]}>
                     <img src={IMAGES.attireIcon} alt="attire logo" />
                     <h1>attire</h1>
                 </div>
             </NavLink>
             <div className={styles["Navigation_Bar-links"]}>
-                <NavLink to="/e-commerce-store/attire/catalogue">
-                    Catalogue
-                </NavLink>
-                <NavLink to="/e-commerce-store/attire/favourites">
-                    Favourites
-                </NavLink>
-                <NavLink to="/e-commerce-store/attire/checkout">
+                <NavLink to="/e-commerce-store/catalogue">Catalogue</NavLink>
+                <NavLink to="/e-commerce-store/favourites">Favourites</NavLink>
+                <NavLink to="/e-commerce-store/checkout">
                     <div className={styles["Navigation_Bar-links-cart"]}>
                         <p>
                             Your Cart{" "}

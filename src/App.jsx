@@ -30,7 +30,7 @@ const App = () => {
         return (
             <Route
                 key={`${itemUrlPath(name) + uuidv4()}`}
-                path={`/e-commerce-store/attire/catalogue/${itemUrlPath(name)}`}
+                path={`/e-commerce-store/catalogue/${itemUrlPath(name)}`}
                 element={DedicatedItemCard}
             />
         );
@@ -40,7 +40,7 @@ const App = () => {
             <div className={styles.App}>
                 <NavigationBar />
                 <Routes>
-                    <Route path="/e-commerce-store/attire">
+                    <Route path="/e-commerce-store/">
                         <Route path="" element={<Homepage />} />
                         <Route path="catalogue">
                             <Route
@@ -58,10 +58,7 @@ const App = () => {
                         <Route path="checkout" element={<CheckOut />} />
                         <Route path="adminAccess" element={<AdminForm />} />
                     </Route>
-                    <Route
-                        path="/e-commerce-store/attire/*"
-                        element={<NotFound />}
-                    />
+                    <Route path="/e-commerce-store/*" element={<NotFound />} />
                 </Routes>
             </div>
         </>
