@@ -40,7 +40,7 @@ const App = () => {
             <div className={styles.App}>
                 <NavigationBar />
                 <Routes>
-                    <Route path="e-commerce-store">
+                    <Route path="/e-commerce-store/attire">
                         <Route path="" element={<Homepage />} />
                         <Route path="catalogue">
                             <Route
@@ -58,7 +58,10 @@ const App = () => {
                         <Route path="checkout" element={<CheckOut />} />
                         <Route path="adminAccess" element={<AdminForm />} />
                     </Route>
-                    <Route path="*" element={<NotFound />} />
+                    <Route
+                        path="/e-commerce-store/attire/*"
+                        element={<NotFound />}
+                    />
                 </Routes>
             </div>
         </>
