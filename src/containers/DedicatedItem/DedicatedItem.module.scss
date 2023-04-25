@@ -3,6 +3,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         justify-items: center;
+
         &_arrows {
             width: 200px;
             position: absolute;
@@ -26,8 +27,9 @@
             padding-left: 50px;
         }
         &_next_image {
+            display: flex;
             padding-right: 50px;
-            left: 327px;
+            left: 396px;
             justify-content: flex-end;
             img {
                 width: 20px;

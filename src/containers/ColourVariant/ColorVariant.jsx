@@ -1,10 +1,11 @@
 import { useState } from "react";
-import Field from "./Field";
-import Input from "./Input";
-import SizeInfo from "./SizeInfo";
-import styles from "./AdminForm.module.scss";
+import Field from "../../components/Field/Field";
+import Input from "../../components/Input/Input";
+import SizeInfo from "../../components/SizeInfo/SizeInfo";
+import styles from "../AdminForm/AdminForm.module.scss";
+import FormButton from "../../components/FormButton/FormButton";
 
-const ColorVariant = ({ number, register, errors, required }) => {
+const ColorVariant = ({ number, register, required }) => {
     const [additionalSizeInput, setAdditionalSizeInput] = useState(1);
 
     const renderAdditionalInputs = (additionalInput) => {
@@ -16,8 +17,8 @@ const ColorVariant = ({ number, register, errors, required }) => {
                     number={number}
                     index={i}
                     register={register}
-                    errors={errors}
                     required={required}
+                    styles={styles["Admin_Form-size_info"]}
                 />
             );
         }
@@ -27,11 +28,10 @@ const ColorVariant = ({ number, register, errors, required }) => {
     return (
         <Field key={number} styles={styles["Admin_Form-color_variant"]}>
             <Input
-                label={`Item Variant`}
+                label={`Different Item Variant/Colour`}
                 name={`variants[${number}][color]`}
                 type="string"
                 register={register}
-                errors={errors}
                 required={required}
             />
             {renderAdditionalInputs(additionalSizeInput)}
@@ -43,27 +43,24 @@ const ColorVariant = ({ number, register, errors, required }) => {
                     accept=" image/png, image/jpeg"
                     multiple={true}
                     register={register}
-                    errors={errors}
                     required={required}
                 />
             </Field>
             <Field>
-                <button
+                <FormButton
                     type="button"
                     onClick={() => {
                         setAdditionalSizeInput(additionalSizeInput + 1);
                     }}
-                >
-                    Add Additional Size Field
-                </button>
-                <button
+                    textContent="Add Additional Size Field"
+                />
+                <FormButton
                     type="button"
                     onClick={() => {
                         setAdditionalSizeInput(additionalSizeInput - 1);
                     }}
-                >
-                    Remove Field
-                </button>
+                    textContent="Remove Last Size Field"
+                />
             </Field>
         </Field>
     );

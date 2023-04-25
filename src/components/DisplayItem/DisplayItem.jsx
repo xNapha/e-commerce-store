@@ -4,6 +4,7 @@ import { itemUrlPath } from "../../services/utility";
 import { FavouritesContext } from "../../contexts/FavouritesProvider";
 import IMAGES from "../../images/images";
 import styles from "./DisplayItem.module.scss";
+import ItemBasicInfo from "../ItemBasicInfo/ItemBasicInfo";
 
 const DisplayItem = ({ id, name, price, image, item }) => {
     const { favourites, setFavourites, checkIfInFavourites, applyHeartSvg } =
@@ -56,7 +57,7 @@ const DisplayItem = ({ id, name, price, image, item }) => {
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
         >
-            <NavLink to={`/attire/catalogue/${itemUrlPath(name)}`}>
+            <NavLink to={`/e-commerce-store/catalogue/${itemUrlPath(name)}`}>
                 {lowStockWarning && (
                     <div
                         className={`${styles["Display_Item-low_stock_warning"]} ${styles["low_stock_warning-visible"]}`}
@@ -64,33 +65,15 @@ const DisplayItem = ({ id, name, price, image, item }) => {
                         Low Stock
                     </div>
                 )}
-                <section>
-                    <div className={styles["Display_Item-images"]}>
-                        <img
-                            src={displayItem ?? IMAGES.defaultImage}
-                            alt={name}
-                            className={styles["Display_Item-images-preview"]}
-                        />
-                        <img
-                            src={applyHeartSvg(heartIcon)}
-                            alt="heart"
-                            onClick={handleClick}
-                            className={styles["Display_Item-images-heart"]}
-                        />
-                    </div>
-                    <div className={styles["Display_Item-item"]}>
-                        <p className={styles["Display_Item-item_name"]}>
-                            {name}
-                        </p>
-                        {hoverOverItem ? (
-                            <p className={styles["Display_Item-item_price"]}>
-                                ${getPrice}
-                            </p>
-                        ) : (
-                            ""
-                        )}
-                    </div>
-                </section>
+                <ItemBasicInfo
+                    displayItem={displayItem}
+                    name={name}
+                    applyHeartSvg={applyHeartSvg}
+                    heartIcon={heartIcon}
+                    handleClick={handleClick}
+                    hoverOverItem={hoverOverItem}
+                    getPrice={getPrice}
+                />
             </NavLink>
         </div>
     );

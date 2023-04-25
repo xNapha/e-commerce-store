@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import AdminForm from "./components/AdminForm/AdminForm";
+import AdminForm from "./containers/AdminForm/AdminForm";
 import Homepage from "./containers/Homepage/Homepage";
 import ItemList from "./containers/ItemList/ItemList";
 import NotFound from "./containers/NotFound/NotFound";

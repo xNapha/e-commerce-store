@@ -7,7 +7,7 @@ const Input = ({
     register,
     accept,
     multiple,
-    errors,
+
     required,
     min,
 }) => {
@@ -22,7 +22,6 @@ const Input = ({
                 required={required}
                 min={min}
             />
-            {errors && errors[name] && <p>{errors[name].message}</p>}
         </>
     );
 };

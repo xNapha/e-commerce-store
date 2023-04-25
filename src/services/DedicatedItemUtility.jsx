@@ -87,7 +87,6 @@ export const userInputChange = (e, dispatch, setInputValue, setError) => {
 };
 
 export const addToCart = (setCart, checkIfInCart, cart, state) => {
-    console.log(state);
     setCart(checkIfInCart(cart, state));
 };
 

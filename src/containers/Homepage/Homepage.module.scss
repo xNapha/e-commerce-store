@@ -1,5 +1,5 @@
 .Homepage {
-    img {
+    &_cover-image {
         position: absolute;
         top: 50px;
         left: 0;
@@ -8,5 +8,26 @@
         height: 600px;
         object-fit: cover;
         background-color: none;
+    }
+    &_quick-links {
+        text-align: center;
+        margin-top: 700px;
+        div {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            height: 300px;
+            width: 500px;
+            div {
+                display: flex;
+                justify-content: flex-end;
+                img {
+                    width: 250px;
+                    height: 300px;
+                }
+            }
+            h1 {
+            }
+        }
     }
 }

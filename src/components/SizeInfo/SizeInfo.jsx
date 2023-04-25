@@ -1,16 +1,14 @@
-import Field from "./Field";
-import Input from "./Input";
-import styles from "./AdminForm.module.scss";
+import Field from "../Field/Field";
+import Input from "../Input/Input";
 
-const SizeInfo = ({ number, register, errors, index, required }) => {
+const SizeInfo = ({ number, register, index, required, styles }) => {
     return (
-        <Field key={number} styles={styles["Admin_Form-size_info"]}>
+        <Field key={number} styles={styles}>
             <Input
                 label="Item Size"
                 name={`variants[${number}][sizes][${index}][size]`}
                 type="string"
                 register={register}
-                errors={errors}
                 required={required}
             />
             <Input
@@ -18,7 +16,6 @@ const SizeInfo = ({ number, register, errors, index, required }) => {
                 name={`variants[${number}][sizes][${index}][quantity]`}
                 type="number"
                 register={register}
-                errors={errors}
                 min={1}
                 required={required}
             />

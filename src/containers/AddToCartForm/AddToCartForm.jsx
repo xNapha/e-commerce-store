@@ -11,6 +11,17 @@ import {
 import { checkIfInCart } from "../../services/utility";
 import styles from "./AddToCartForm.module.scss";
 import VariantSelect from "../../components/VariantSelect/VariantSelect";
+import FormButton from "../../components/FormButton/FormButton";
+import {
+    maximumPerCustomerWarningMessage,
+    lowStockWarningMessage,
+    outOfStockMessage,
+    addToCartTextContent,
+    maxPurchaseVariable,
+    minimumPurchaseVariable,
+    outOfStockVariable,
+    totalPriceOfCurrentItem,
+} from "../../services/AddToCartFormUtility";
 
 const AddToCartForm = ({
     id,
@@ -25,10 +36,6 @@ const AddToCartForm = ({
     setCurrentSelectedSize,
     setCurrentSelectedImage,
 }) => {
-    const maxPurchaseVariable = 10;
-    const minimumPurchaseVariable = 1;
-    const outOfStockVariable = 0;
-
     const initialValue = {
         quantity: minimumPurchaseVariable,
         id: id,
@@ -96,10 +103,6 @@ const AddToCartForm = ({
     const [lowStockError, setLowStockError] = useState(false);
     const [disableAddToCart, setDisableAddToCart] = useState(false);
 
-    const totalPriceOfCurrentItem = Math.round(
-        (price * state.quantity * 100) / 100
-    ).toFixed(2);
-
     const renderDifferentColourVariantButtons = changeToDifferentColorVaraints(
         variants,
         setCurrentColorVariant,
@@ -116,15 +119,6 @@ const AddToCartForm = ({
         setMaximumPurchaseError,
         setLowStockError
     );
-    const maximumPerCustomerWarningMessage = (
-        <p>Only a maximum of {maxPurchaseVariable} per customer</p>
-    );
-    const lowStockWarningMessage = (
-        <p>
-            We are low on stock unfortunately you wont be able to purchase more
-        </p>
-    );
-    const addToCartTextContent = `ADD TO CART - $${totalPriceOfCurrentItem}`;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -160,9 +154,11 @@ const AddToCartForm = ({
     }, [item]);
 
     useEffect(() => {
-        currentSelectedSize.quantity > outOfStockVariable
-            ? setDisableAddToCart(false)
-            : setDisableAddToCart(true);
+        if (currentSelectedSize.quantity > outOfStockVariable) {
+            setDisableAddToCart(false);
+        } else {
+            setDisableAddToCart(true);
+        }
     });
     return (
         <form onSubmit={handleSubmit} className={styles["Add_To_Cart_Form"]}>
@@ -179,40 +175,44 @@ const AddToCartForm = ({
                 />
             </div>
             <div className={styles["Add_To_Cart_Form-counter"]}>
-                <button
+                <FormButton
                     type="button"
                     onClick={handleDecrement}
                     disabled={disableAddToCart}
-                    className={styles["counter-decrement"]}
-                >
-                    -
-                </button>
+                    styles={styles["counter-decrement"]}
+                    textContent="-"
+                />
                 <input
-                    value={inputValue}
+                    value={disableAddToCart ? 0 : inputValue}
                     onChange={handleOnChange}
                     max={maxPurchaseVariable}
                     min={minimumPurchaseVariable}
                     type="number"
                 />
-                <button
+                <FormButton
                     type="button"
                     onClick={handleIncrement}
                     disabled={disableAddToCart}
-                    className={styles["counter-increment"]}
-                >
-                    +
-                </button>
+                    styles={styles["counter-increment"]}
+                    textContent="+"
+                />
             </div>
-            <button
+            <FormButton
                 type="submit"
                 disabled={disableAddToCart}
                 className={styles["Add_To_Cart_Form-cart_button"]}
-            >
-                {addToCartTextContent}
-            </button>
+                textContent={
+                    disableAddToCart
+                        ? "Out Of Stock"
+                        : addToCartTextContent(
+                              totalPriceOfCurrentItem(price, state.quantity)
+                          )
+                }
+            />
             <div className={styles["Add_To_Cart_Form-error_messages"]}>
                 {maximumPurchaseError && maximumPerCustomerWarningMessage}
                 {lowStockError && lowStockWarningMessage}
+                {disableAddToCart && outOfStockMessage}
             </div>
         </form>
     );

@@ -1,19 +1,17 @@
 import { addItemToDataBase } from "../../services/updateDatabase";
 import { useForm } from "react-hook-form";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./AdminForm.module.scss";
-import ColorVariant from "./ColorVariant";
-import Field from "./Field";
-import Input from "./Input";
+import ColorVariant from "../ColourVariant/ColorVariant";
+import Field from "../../components/Field/Field";
+import Input from "../../components/Input/Input";
+import FormButton from "../../components/FormButton/FormButton";
+import { StockContext } from "../../contexts/StockProvider";
 
 const AdminForm = () => {
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm();
+    const { register, handleSubmit, reset } = useForm();
 
+    const { adminFormSent, setAdminFormSent } = useContext(StockContext);
     const [additionalColorInput, setAdditionalColorInput] = useState(1);
     const [updatingDataBase, setUpdatingDataBase] = useState(false);
     const [password, setPassword] = useState("");
@@ -24,7 +22,9 @@ const AdminForm = () => {
         await addItemToDataBase(data);
         reset();
         setUpdatingDataBase(false);
+        setAdminFormSent(adminFormSent + 1);
     };
+
     const renderAdditionalInputs = (additionalInput) => {
         const formToRender = [];
         for (let i = 0; i < additionalInput; i++) {
@@ -35,7 +35,6 @@ const AdminForm = () => {
                     register={register}
                     additionalColorInput={additionalColorInput}
                     setAdditionalColorInput={setAdditionalColorInput}
-                    errors={errors}
                     required={true}
                 />
             );
@@ -51,28 +50,25 @@ const AdminForm = () => {
                     name="name"
                     type="text"
                     register={register}
-                    errors={errors}
                     required={true}
                 />
             </Field>
             {renderAdditionalInputs(additionalColorInput)}
             <Field styles={styles["Admin_Form-main"]}>
-                <button
+                <FormButton
                     type="button"
                     onClick={() => {
                         setAdditionalColorInput(additionalColorInput + 1);
                     }}
-                >
-                    Additional Color Info
-                </button>
-                <button
+                    textContent="Additional Color Info"
+                />
+                <FormButton
                     type="button"
                     onClick={() => {
                         setAdditionalColorInput(additionalColorInput - 1);
                     }}
-                >
-                    Remove Color Field
-                </button>
+                    textContent="Remove Last Color Field"
+                />
             </Field>
 
             <Field styles={styles["Admin_Form-main"]}>
@@ -81,7 +77,6 @@ const AdminForm = () => {
                     name="price"
                     type="text"
                     register={register}
-                    errors={errors}
                     required={true}
                 />
             </Field>
@@ -91,7 +86,6 @@ const AdminForm = () => {
                     name="category"
                     type="string"
                     register={register}
-                    errors={errors}
                     required={true}
                 />
             </Field>
@@ -101,12 +95,11 @@ const AdminForm = () => {
                     name="description"
                     type="string"
                     register={register}
-                    errors={errors}
                     required={true}
                 />
             </Field>
             <Field>
-                <button type="submit">Submit</button>
+                <FormButton type="submit" textContent="Submit" />
             </Field>
         </form>
     );
