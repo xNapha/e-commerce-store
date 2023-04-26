@@ -5,11 +5,15 @@
     &-product {
         @include mixins.displayGrid(center);
         grid-template-columns: 1fr 1fr;
+        &_image_buttons {
+            display: flex;
+            height: 0px;
+            justify-content: space-between;
+            width: 500px;
+        }
         &_arrows {
             width: 200px;
-            position: absolute;
             height: 500px;
-            display: flex;
             @include mixins.cursor();
             img {
                 width: 20px;
@@ -23,12 +27,12 @@
             }
         }
         &_previous_image {
+            @include mixins.displayFlex(row, flex-start);
             padding-left: variables.$dedicated-item-arrow-padding;
         }
         &_next_image {
             @include mixins.displayFlex(row, flex-end);
             padding-right: variables.$dedicated-item-arrow-padding;
-            left: 396px;
             img {
                 width: 20px;
             }

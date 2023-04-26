@@ -6,7 +6,15 @@ import IMAGES from "../../images/images";
 import styles from "./DisplayItem.module.scss";
 import ItemBasicInfo from "../ItemBasicInfo/ItemBasicInfo";
 
-const DisplayItem = ({ id, name, price, image, item }) => {
+const DisplayItem = ({
+    id,
+    name,
+    price,
+    image,
+    item,
+    setCurrentSelectedImage,
+    inDedicatedPage,
+}) => {
     const { favourites, setFavourites, checkIfInFavourites, applyHeartSvg } =
         useContext(FavouritesContext);
     const miniumStockAvailableBeforeWarning = 25;
@@ -56,6 +64,11 @@ const DisplayItem = ({ id, name, price, image, item }) => {
             className={styles.Display_Item}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
+            onClick={() => {
+                if (inDedicatedPage) {
+                    setCurrentSelectedImage(image);
+                }
+            }}
         >
             <NavLink to={`/e-commerce-store/catalogue/${itemUrlPath(name)}`}>
                 {lowStockWarning && (

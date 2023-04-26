@@ -11,15 +11,15 @@
         background-color: none;
     }
     &_quick-links {
+        @include mixins.displayGrid(legacy, center);
         text-align: center;
         margin-top: 700px;
         div {
             @include mixins.displayGrid(legacy, center);
             grid-template-columns: 1fr 1fr;
             height: 300px;
-            width: 500px;
+            width: 100%;
             div {
-                @include mixins.displayFlex(row, flex-end, center);
                 img {
                     width: 250px;
                     height: 300px;

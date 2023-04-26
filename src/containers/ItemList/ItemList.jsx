@@ -12,6 +12,7 @@ const ItemList = ({
     inFavouritesPage,
     inDedicatedPage,
     inCataloguePage,
+    setCurrentSelectedImage,
 }) => {
     const { cart, setCart } = useContext(CartContext);
     const { favourites, setFavourites } = useContext(FavouritesContext);
@@ -26,6 +27,8 @@ const ItemList = ({
                 description={description}
                 image={variants[0].images}
                 item={item}
+                setCurrentSelectedImage={setCurrentSelectedImage}
+                inDedicatedPage={inDedicatedPage}
             />
         );
     });

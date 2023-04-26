@@ -7,7 +7,6 @@ const Input = ({
     register,
     accept,
     multiple,
-
     required,
     min,
 }) => {

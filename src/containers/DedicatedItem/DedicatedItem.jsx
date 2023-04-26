@@ -89,7 +89,6 @@ const DedicatedItem = ({ id, name, price, description, item, variants }) => {
                         >
                             <img src={IMAGES.arrowLeft} alt="left arrow" />
                         </div>
-
                         <div
                             className={` ${styles["Dedicated_Item-product_arrows"]} ${styles["Dedicated_Item-product_next_image"]}`}
                             onClick={nextImage}
@@ -103,7 +102,7 @@ const DedicatedItem = ({ id, name, price, description, item, variants }) => {
                             styles["Dedicated_Item-product_current_image"]
                         }
                     />
-                    {renderVariantImages}
+                    <div>{renderVariantImages}</div>
                 </div>
                 <div className={styles["Dedicated_Item-product_information"]}>
                     <section
@@ -163,6 +162,7 @@ const DedicatedItem = ({ id, name, price, description, item, variants }) => {
                 <ItemList
                     inDedicatedPage={true}
                     stock={getItemsWithInTheSameCategory(currentStock, item)}
+                    setCurrentSelectedImage={setCurrentSelectedImage}
                 />
             </section>
         </div>
