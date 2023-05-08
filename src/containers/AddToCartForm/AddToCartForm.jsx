@@ -21,6 +21,7 @@ import {
     minimumPurchaseVariable,
     outOfStockVariable,
     totalPriceOfCurrentItem,
+    checkMaximumQuantity,
 } from "../../services/AddToCartFormUtility";
 
 const AddToCartForm = ({
@@ -67,7 +68,6 @@ const AddToCartForm = ({
         } else if (action.type === "changeColor") {
             const { color, quantity, image, ...rest } = state;
             setInputValue(minimumPurchaseVariable);
-            console.log(currentColorVariant);
             return {
                 quantity: minimumPurchaseVariable,
                 color: currentColorVariant.color,
@@ -143,7 +143,13 @@ const AddToCartForm = ({
     };
 
     const handleOnChange = (e) => {
-        userInputChange(e, dispatch, setInputValue, setMaximumPurchaseError);
+        userInputChange(
+            e,
+            dispatch,
+            setInputValue,
+            setMaximumPurchaseError,
+            setDisableAddToCart
+        );
     };
 
     useEffect(() => {
@@ -159,6 +165,13 @@ const AddToCartForm = ({
         } else {
             setDisableAddToCart(true);
         }
+        // if item is already at a maximum of 10 disable button and show warning message
+        checkMaximumQuantity(
+            cart,
+            state,
+            setMaximumPurchaseError,
+            setDisableAddToCart
+        );
     });
     return (
         <form onSubmit={handleSubmit} className={styles["Add_To_Cart_Form"]}>
@@ -201,18 +214,13 @@ const AddToCartForm = ({
                 type="submit"
                 disabled={disableAddToCart}
                 className={styles["Add_To_Cart_Form-cart_button"]}
-                textContent={
-                    disableAddToCart
-                        ? "Out Of Stock"
-                        : addToCartTextContent(
-                              totalPriceOfCurrentItem(price, state.quantity)
-                          )
-                }
+                textContent={addToCartTextContent(
+                    totalPriceOfCurrentItem(price, state.quantity)
+                )}
             />
             <div className={styles["Add_To_Cart_Form-error_messages"]}>
                 {maximumPurchaseError && maximumPerCustomerWarningMessage}
                 {lowStockError && lowStockWarningMessage}
-                {disableAddToCart && outOfStockMessage}
             </div>
         </form>
     );

@@ -9,11 +9,24 @@ export const itemUrlPath = (title) => {
 
 const updateCartInformation = (cart, state) => {
     return cart.reduce((acc, curr) => {
-        curr.id === state.id &&
-        curr.color === state.color &&
-        curr.size === state.size
-            ? acc.push(state)
-            : acc.push(curr);
+        const checkForExactItem =
+            curr.id === state.id &&
+            curr.color === state.color &&
+            curr.size === state.size;
+        let amountToAdd = state.quantity;
+        if (state.quantity + curr.quantity > 10) {
+            amountToAdd = 10 - curr.quantity;
+        }
+        if (checkForExactItem && curr.quantity < 10) {
+            const { quantity, ...rest } = curr;
+            const updatedItem = {
+                ...rest,
+                quantity: quantity + amountToAdd,
+            };
+            acc.push(updatedItem);
+        } else {
+            acc.push(curr);
+        }
         return [...acc];
     }, []);
 };
@@ -53,4 +66,8 @@ export const getTotalPrice = (cart) => {
 
 export const checkItemQuantity = (cart) => {
     return cart.filter((inCart) => inCart.quantity !== 0);
+};
+
+export const roundedTotalPrice = (totalPrice) => {
+    return (Math.round(totalPrice * 100) / 100).toFixed(2);
 };

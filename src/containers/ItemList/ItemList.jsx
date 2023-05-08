@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
-import DisplayItem from "../../components/DisplayItem/DisplayItem";
-import CartItem from "../../components/CartItem/CartItem";
+import DisplayItem from "../DisplayItem/DisplayItem";
+import CartItem from "../CartItem/CartItem";
 import styles from "./ItemList.module.scss";
 import { CartContext } from "../../contexts/CartProvider";
 import IMAGES from "../../images/images";
-import { v4 as uuidv4 } from "uuid";
 import { FavouritesContext } from "../../contexts/FavouritesProvider";
 const ItemList = ({
     stock,
@@ -20,7 +19,7 @@ const ItemList = ({
         const { id, name, price, description, variants } = item;
         return (
             <DisplayItem
-                key={id + uuidv4()}
+                key={id}
                 id={id}
                 name={name}
                 price={price}
@@ -37,7 +36,7 @@ const ItemList = ({
         const { id, name, price, quantity, size, color, image } = inCart;
         return (
             <CartItem
-                key={id + uuidv4()}
+                key={id}
                 id={id}
                 name={name}
                 price={price}
@@ -55,7 +54,7 @@ const ItemList = ({
         const { id, name, price, description, variants } = favourite;
         return (
             <DisplayItem
-                key={id + uuidv4()}
+                key={id}
                 id={id}
                 name={name}
                 price={price}

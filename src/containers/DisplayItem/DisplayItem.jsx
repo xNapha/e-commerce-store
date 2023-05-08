@@ -4,7 +4,7 @@ import { itemUrlPath } from "../../services/utility";
 import { FavouritesContext } from "../../contexts/FavouritesProvider";
 import IMAGES from "../../images/images";
 import styles from "./DisplayItem.module.scss";
-import ItemBasicInfo from "../ItemBasicInfo/ItemBasicInfo";
+import ItemBasicInfo from "../../components/ItemBasicInfo/ItemBasicInfo";
 
 const DisplayItem = ({
     id,

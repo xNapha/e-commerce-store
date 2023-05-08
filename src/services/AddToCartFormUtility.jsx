@@ -21,3 +21,26 @@ export const addToCartTextContent = (totalPriceOfCurrentItem) => {
 export const totalPriceOfCurrentItem = (price, quantity) => {
     return Math.round((price * quantity * 100) / 100).toFixed(2);
 };
+
+export const checkMaximumQuantity = (
+    cart,
+    state,
+    setMaximumPurchaseError,
+    setDisableAddToCart
+) => {
+    const found = itemInCart(cart, state);
+    if (found && found.quantity >= 10) {
+        setMaximumPurchaseError(true);
+        setDisableAddToCart(true);
+    }
+};
+
+const itemInCart = (cart, state) => {
+    const foundInCart = cart.find(
+        (object) =>
+            object.id === state.id &&
+            object.color === state.color &&
+            object.size === state.size
+    );
+    return foundInCart;
+};

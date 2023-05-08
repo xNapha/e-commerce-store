@@ -40,24 +40,29 @@ const App = () => {
             <div className={styles.App}>
                 <NavigationBar />
                 <Routes>
-                    <Route path="/e-commerce-store/">
-                        <Route path="" element={<Homepage />} />
-                        <Route path="catalogue">
-                            <Route
-                                path=""
-                                element={
-                                    <ItemList
-                                        stock={currentStock}
-                                        inCataloguePage={true}
-                                    />
-                                }
+                    <Route path="/e-commerce-store/" element={<Homepage />} />
+                    <Route
+                        path="/e-commerce-store/catalogue"
+                        element={
+                            <ItemList
+                                stock={currentStock}
+                                inCataloguePage={true}
                             />
-                            {renderRouteForEachStock}
-                        </Route>
-                        <Route path="favourites" element={<Favourites />} />
-                        <Route path="checkout" element={<CheckOut />} />
-                        <Route path="adminAccess" element={<AdminForm />} />
-                    </Route>
+                        }
+                    />
+                    {renderRouteForEachStock};
+                    <Route
+                        path="/e-commerce-store/favourites"
+                        element={<Favourites />}
+                    />
+                    <Route
+                        path="/e-commerce-store/checkout"
+                        element={<CheckOut />}
+                    />
+                    <Route
+                        path="/e-commerce-store/adminAccess"
+                        element={<AdminForm />}
+                    />
                     <Route path="/e-commerce-store/*" element={<NotFound />} />
                 </Routes>
             </div>

@@ -18,16 +18,6 @@ const Homepage = () => {
         return acc;
     }, []);
 
-    const renderCategories = getCategories.map((item) => {
-        return (
-            <NavLink to="/e-commerce-store/catalogue" key={item.category}>
-                <div>
-                    <img src={item.image} />
-                    <h1>{item.category}</h1>
-                </div>
-            </NavLink>
-        );
-    });
     return (
         <div className={styles.Homepage}>
             <img
@@ -35,8 +25,9 @@ const Homepage = () => {
                 className={styles["Homepage_cover-image"]}
             />
             <div className={styles["Homepage_quick-links"]}>
-                <h1>What we sell</h1>
-                <div>{renderCategories}</div>
+                <NavLink to="/e-commerce-store/catalogue">
+                    {`>>>`} The Basic Essentials {`<<<`}
+                </NavLink>
             </div>
         </div>
     );

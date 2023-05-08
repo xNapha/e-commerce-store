@@ -1,4 +1,4 @@
-import { checkItemQuantity } from "../../services/utility";
+import { checkItemQuantity, roundedTotalPrice } from "../../services/utility";
 import styles from "./CartItem.module.scss";
 const CartItem = ({
     id,
@@ -11,10 +11,6 @@ const CartItem = ({
     setCart,
     image,
 }) => {
-    const roundedPricePoint = (
-        Math.round(quantity * price * 100) / 100
-    ).toFixed(2);
-
     const decrementOnClick = () => {
         const updateItem = cart.map((inCart) => {
             if (
@@ -58,7 +54,7 @@ const CartItem = ({
                     +
                 </button>
             </div>
-            <p>${roundedPricePoint}</p>
+            <p>${roundedTotalPrice(quantity * price)}</p>
         </div>
     );
 };

@@ -7,10 +7,12 @@ import { checkItemAvailability } from "../../services/DedicatedItemUtility";
 import { FavouritesContext } from "../../contexts/FavouritesProvider";
 import AddToCartForm from "../AddToCartForm/AddToCartForm";
 import styles from "./DedicatedItem.module.scss";
+import { CartContext } from "../../contexts/CartProvider";
 const DedicatedItem = ({ id, name, price, description, item, variants }) => {
     const { currentStock } = useContext(StockContext);
     const { favourites, setFavourites, checkIfInFavourites, applyHeartSvg } =
         useContext(FavouritesContext);
+    const { cart } = useContext(CartContext);
 
     const foundInFavourites = favourites.find(
         (favourite) => favourite.id === id
