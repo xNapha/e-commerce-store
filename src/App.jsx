@@ -10,7 +10,7 @@ import { Routes, Route } from "react-router-dom";
 import { StockContext } from "./contexts/StockProvider";
 import { v4 as uuidv4 } from "uuid";
 import { itemUrlPath } from "./services/utility";
-import Favourites from "./containers/Favourites/Favourites";
+import Favourites from "./components/Favourites/Favourites";
 import styles from "./App.module.scss";
 const App = () => {
     const { currentStock } = useContext(StockContext);

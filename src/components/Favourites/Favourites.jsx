@@ -1,4 +1,4 @@
-import ItemList from "../ItemList/ItemList";
+import ItemList from "../../containers/ItemList/ItemList";
 
 const Favourites = () => {
     return (
